@@ -46,7 +46,7 @@ public class Login extends Application {
         titleLabel.setAlignment(Pos.CENTER);
         titleLabel.setStyle("-fx-text-align: center; -fx-text-fill: white; -fx-font-weight: bold;");
 
-        box.getChildren().addAll(titleLabel, box);
+        box.getChildren().addAll(titleLabel);
         box.getChildren().addAll(Pane);
 
         ///////////////
@@ -76,27 +76,28 @@ public class Login extends Application {
 
         ///////////////
         
-        Hbox buttonBox = new HBox(10);
-        buttonBox.setAlignment(Pos.CENTER_Left);
+        HBox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER_LEFT);
         buttonBox.setPadding(new Insets(10, 0, 0, 0));
         //add style later
 
-        checkbox botcheckbox = new CheckBox("I am not a robot");
+        CheckBox botcheckbox = new CheckBox("I am not a robot");
         botcheckbox.setStyle("-fx-text-fill: #888888; -fx-font-size: 12px;");
         Label lock = new Label("\uD83D\uDEE1");
         lock.setFont(Font.font(16));
-        Hbox.setHgrow(lock, Priority.ALWAYS);
-        botcheckbox.getChildren().add(lock, botcheckbox);
+        HBox.setHgrow(lock, Priority.ALWAYS);
+        buttonBox.getChildren().addAll(lock, botcheckbox);
 
 
         Button loginButton = new Button("Login");
         loginButton.setOnMouseEntered (e -> loginButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;"));
         loginButton.setOnMouseExited (e -> loginButton.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: black;"));
         
+        String base = "-fx-background-color: #4b6cb7; -fx-text-fill: white; -fx-background-radius: 6;";
         String mouseStyle = base.replace("#4b6cb7", "#3a5a9c");
         loginButton.setStyle(base);
-        logingButton.setMouseEntered(e -> loginButton.setStyle(mouseStyle));
-        loginButton.setMouseExited(e -> loginButton.setStyle(base));
+        loginButton.setOnMouseEntered(e -> loginButton.setStyle(mouseStyle));
+        loginButton.setOnMouseExited(e -> loginButton.setStyle(base));
 
         Label messageLabel1 = new Label();
         messageLabel1.setFont(new Font("Arial", 14));
@@ -127,17 +128,29 @@ public class Login extends Application {
             }
         };
 
+        GridPane gridPane = new GridPane();
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+        gridPane.add(usernameLabel, 0, 0);
+        gridPane.add(usernameField, 1, 0);
+        gridPane.add(passwordLabel, 0, 1);
+        gridPane.add(passwordField, 1, 1); 
+        gridPane.add(loginButton, 1, 2);
+
+        VBox card = new VBox(10);
+        card.setAlignment(Pos.CENTER);
+
        loginButton.setOnAction(e -> attemptLogin.run());
        passwordField.setOnAction(e -> attemptLogin.run());
-       card.getChildren().addAll(welcomeLabel, instructionLabel, gridPane, botcheckbox, messageLabel1);
+       card.getChildren().addAll(welcomeLabel, instructionLabel, gridPane, buttonBox, messageLabel1);
 
         //////////
-        Borderpane root = new BorderPane();
-        root.setLeft(brandingPane);
+        BorderPane root = new BorderPane();
+        root.setLeft(Pane);
 
         StackPane loginPane = new StackPane(card);
-        rightSide.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 40;");
-        root.setCenter(rightSide);
+        loginPane.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 40;");
+        root.setCenter(loginPane);
 
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
