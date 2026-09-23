@@ -1,5 +1,5 @@
 package qasystem.model;
-
+import java.util.ArrayList;
 public class Answer {
     // Fields
     private String text;
