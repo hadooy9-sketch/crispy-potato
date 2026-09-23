@@ -5,10 +5,12 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane  fx:controller="qasystem.controller.LoginController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="qasystem.controller.LoginController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,9 +25,19 @@
                </font>
             </Label>
             <Label text="Username" />
-            <TextField fx:id="usernameField" prefWidth="250.0" />
+            <TextField fx:id="usernameField" maxWidth="250.0" prefWidth="250.0" text="adadad" />
             <Label prefHeight="17.0" prefWidth="56.0" text="Password" />
-            <PasswordField fx:id="passwordField" />
+           <HBox alignment="CENTER" maxWidth="250.0" spacing="5.0">
+    <children>
+        <StackPane HBox.hgrow="ALWAYS">
+            <children>
+                <PasswordField fx:id="passwordField" promptText="Enter password" text="adadadada" />
+                <TextField fx:id="passwordTextField" managed="false" promptText="Enter password" visible="false" />
+            </children>
+        </StackPane>
+        <Button fx:id="showPasswordButton" mnemonicParsing="false" onMousePressed="#handleShowPasswordPressed" onMouseReleased="#handleShowPasswordReleased" text="👁" />
+    </children>
+</HBox>
             <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="login" />
          </children>
       </VBox>
