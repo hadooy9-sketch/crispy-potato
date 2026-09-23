@@ -75,41 +75,71 @@ public class Login extends Application {
         //add style
 
         ///////////////
+        
+        Hbox buttonBox = new HBox(10);
+        buttonBox.setAlignment(Pos.CENTER_Left);
+        buttonBox.setPadding(new Insets(10, 0, 0, 0));
+        //add style later
+
+        checkbox botcheckbox = new CheckBox("I am not a robot");
+        botcheckbox.setStyle("-fx-text-fill: #888888; -fx-font-size: 12px;");
+        Label lock = new Label("\uD83D\uDEE1");
+        lock.setFont(Font.font(16));
+        Hbox.setHgrow(lock, Priority.ALWAYS);
+        botcheckbox.getChildren().add(lock, botcheckbox);
+
 
         Button loginButton = new Button("Login");
         loginButton.setOnMouseEntered (e -> loginButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;"));
         loginButton.setOnMouseExited (e -> loginButton.setStyle("-fx-background-color: #f0f0f0; -fx-text-fill: black;"));
+        
+        String mouseStyle = base.replace("#4b6cb7", "#3a5a9c");
+        loginButton.setStyle(base);
+        logingButton.setMouseEntered(e -> loginButton.setStyle(mouseStyle));
+        loginButton.setMouseExited(e -> loginButton.setStyle(base));
 
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setPadding(new Insets(30));
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-        //add style
+        Label messageLabel1 = new Label();
+        messageLabel1.setFont(new Font("Arial", 14));
+        messageLabel1.setWrapText(true);
 
-        gridPane.add(titleLabel, 0, 0, 2, 1);
-        gridPane.add(usernameLabel, 0, 1);
-        gridPane.add(usernameField, 1, 1);
-        gridPane.add(passwordLabel, 0, 2);
-        gridPane.add(passwordField, 1, 2);
-        gridPane.add(loginButton, 1, 3);
-        gridPane.add(messageLabel, 1, 4);
+        ///////
 
-        // Set up event handling for login button
-        loginButton.setOnAction(e -> {
+        Runnable attemptLogin = () -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
-            if (username.equals("admin") && password.equals("password")) {
-                messageLabel.setText("Login successful!");
-                messageLabel.setFont(new Font("Arial", 14));
-            } else {
-                messageLabel.setText("Invalid credentials. Please try again.");
-                messageLabel.setFont(new Font("Arial", 14));
-            }
-        });
+            boolean isBotChecked = botcheckbox.isSelected();
 
-        // Create scene and set stage
-        Scene scene = new Scene(gridPane, 400, 250);
+            if (username.isEmpty() || password.isEmpty()) {
+                messageLabel1.setText("Please enter both username and password.");
+                messageLabel1.setTextFill(Color.RED);
+            } else if (!isBotChecked) {
+                messageLabel1.setText("Please confirm you are not a robot.");
+                messageLabel1.setTextFill(Color.RED);
+            } else {
+                // Here you would normally check the credentials against a database or authentication service
+                if (username.equals("user") && password.equals("pass")) {
+                    messageLabel1.setText("Login successful!");
+                    messageLabel1.setTextFill(Color.GREEN);
+                } else {
+                    messageLabel1.setText("Invalid username or password.");
+                    messageLabel1.setTextFill(Color.RED);
+                }
+            }
+        };
+
+       loginButton.setOnAction(e -> attemptLogin.run());
+       passwordField.setOnAction(e -> attemptLogin.run());
+       card.getChildren().addAll(welcomeLabel, instructionLabel, gridPane, botcheckbox, messageLabel1);
+
+        //////////
+        Borderpane root = new BorderPane();
+        root.setLeft(brandingPane);
+
+        StackPane loginPane = new StackPane(card);
+        rightSide.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 40;");
+        root.setCenter(rightSide);
+
+        Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.show();
