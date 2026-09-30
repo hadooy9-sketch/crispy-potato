@@ -1,0 +1,514 @@
+/* =====================================================================
+   Q&A System - one stylesheet for the whole app.
+   Dark, launcher-style theme (inspired by the Battle.net app).
+   Colors are defined ONCE here and reused everywhere.
+   ===================================================================== */
+
+.root {
+    /* ---- Palette ---- */
+    -app-bg:            #0b0d12;
+    -app-surface:       #161a22;
+    -app-surface-2:     #1e232d;
+    -app-border:        #2a303c;
+    -app-accent:        #148eff;
+    -app-accent-hover:  #3ba3ff;
+    -app-accent-press:  #0b6fd3;
+    -app-text:          #e8eaed;
+    -app-muted:         #98a2b3;
+    -app-success:       #35c47c;
+    -app-warning:       #f2a93b;
+    -app-danger:        #ff5a5f;
+
+    /* ---- Tell JavaFX's built-in theme (Modena) that we are dark ---- */
+    -fx-base: #1e232d;
+    -fx-background: #0b0d12;
+    -fx-control-inner-background: #11141b;
+    -fx-control-inner-background-alt: #141820;
+    -fx-accent: #148eff;
+    -fx-focus-color: #148eff;
+    -fx-faint-focus-color: #148eff22;
+
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 15px;
+    -fx-background-color: -app-bg;
+}
+
+.label {
+    -fx-text-fill: -app-text;
+}
+
+/* =====================================================================
+   Top bar
+   ===================================================================== */
+
+.top-bar {
+    -fx-background-color: linear-gradient(to bottom, #161b25, #0f131a);
+    -fx-border-color: transparent transparent -app-border transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 14 32 14 32;
+    -fx-spacing: 14;
+    -fx-alignment: center-left;
+}
+
+.brand {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.brand-accent {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -app-accent;
+}
+
+.user-chip {
+    -fx-background-color: -app-surface-2;
+    -fx-background-radius: 20;
+    -fx-padding: 7 16 7 16;
+    -fx-text-fill: -app-muted;
+    -fx-font-size: 14px;
+}
+
+/* =====================================================================
+   Page layout and headings
+   ===================================================================== */
+
+.page {
+    -fx-padding: 32 40 40 40;
+    -fx-spacing: 14;
+}
+
+.hero-title {
+    -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.hero-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: -app-muted;
+}
+
+.hero-code {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -app-accent;
+}
+
+.section-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 18 0 2 0;
+}
+
+.breadcrumb {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -app-accent;
+}
+
+.empty-message {
+    -fx-font-size: 15px;
+    -fx-text-fill: -app-muted;
+    -fx-padding: 8 0 8 0;
+}
+
+.panel {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 12;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 12;
+    -fx-padding: 24;
+    -fx-spacing: 10;
+}
+
+.notice {
+    -fx-background-color: #35c47c14;
+    -fx-background-radius: 8;
+    -fx-border-color: #35c47c55;
+    -fx-border-radius: 8;
+    -fx-padding: 12 16 12 16;
+    -fx-text-fill: -app-success;
+}
+
+/* =====================================================================
+   Buttons
+   ===================================================================== */
+
+.button {
+    -fx-background-color: -app-surface-2;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-font-size: 15px;
+    -fx-padding: 9 18 9 18;
+    -fx-cursor: hand;
+}
+
+.button:hover   { -fx-background-color: #272d39; }
+.button:pressed { -fx-background-color: #191d25; }
+.button:focused { -fx-border-color: -app-accent; }
+
+.primary-button {
+    -fx-background-color: -app-accent;
+    -fx-border-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.primary-button:hover   { -fx-background-color: -app-accent-hover; }
+.primary-button:pressed { -fx-background-color: -app-accent-press; }
+.primary-button:focused { -fx-border-color: white; }
+
+.secondary-button {
+    -fx-background-color: transparent;
+    -fx-border-color: -app-accent;
+    -fx-text-fill: -app-accent;
+    -fx-font-weight: bold;
+}
+.secondary-button:hover { -fx-background-color: #148eff1f; }
+
+.success-button {
+    -fx-background-color: transparent;
+    -fx-border-color: -app-success;
+    -fx-text-fill: -app-success;
+    -fx-font-weight: bold;
+}
+.success-button:hover { -fx-background-color: #35c47c22; }
+
+.danger-button {
+    -fx-background-color: transparent;
+    -fx-border-color: -app-danger;
+    -fx-text-fill: -app-danger;
+}
+.danger-button:hover { -fx-background-color: #ff5a5f22; }
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -app-accent;
+    -fx-font-weight: bold;
+    -fx-padding: 2 4 2 4;
+}
+.link-button:hover { -fx-underline: true; -fx-background-color: transparent; }
+
+.big-button {
+    -fx-font-size: 17px;
+    -fx-padding: 13 20 13 20;
+}
+
+/* =====================================================================
+   Text inputs
+   ===================================================================== */
+
+.text-field, .text-area, .combo-box, .spinner {
+    -fx-font-size: 16px;
+}
+
+.text-field {
+    -fx-background-color: #10131a;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 6;
+    -fx-padding: 11 14 11 14;
+    -fx-text-fill: -app-text;
+    -fx-prompt-text-fill: #5d6677;
+    -fx-highlight-fill: -app-accent;
+}
+.text-field:focused { -fx-border-color: -app-accent; }
+
+.search-field {
+    -fx-background-radius: 22;
+    -fx-border-radius: 22;
+    -fx-padding: 11 20 11 20;
+}
+
+.code-field {
+    -fx-font-family: "Consolas";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -app-accent;
+}
+
+.text-area {
+    -fx-background-color: -app-border, #10131a;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 6;
+    -fx-text-fill: -app-text;
+    -fx-prompt-text-fill: #5d6677;
+    -fx-highlight-fill: -app-accent;
+}
+.text-area:focused { -fx-background-color: -app-accent, #10131a; }
+.text-area .content {
+    -fx-background-color: #10131a;
+    -fx-background-radius: 6;
+    -fx-padding: 8 10 8 10;
+}
+
+.combo-box, .spinner {
+    -fx-background-color: #10131a;
+    -fx-background-radius: 6;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 6;
+}
+.combo-box:focused, .spinner:focused { -fx-border-color: -app-accent; }
+.combo-box .list-cell { -fx-text-fill: -app-text; -fx-background-color: transparent; -fx-padding: 8 10 8 10; }
+.combo-box .arrow, .spinner .increment-arrow, .spinner .decrement-arrow { -fx-background-color: -app-muted; }
+.combo-box .arrow-button { -fx-background-color: transparent; }
+.combo-box-popup .list-view { -fx-background-color: -app-surface; -fx-border-color: -app-border; }
+.combo-box-popup .list-cell { -fx-padding: 8 12 8 12; }
+.combo-box-popup .list-cell:hover, .combo-box-popup .list-cell:selected { -fx-background-color: #148eff33; }
+.spinner .text-field { -fx-border-color: transparent; -fx-background-color: transparent; }
+.spinner .increment-arrow-button, .spinner .decrement-arrow-button { -fx-background-color: -app-surface-2; }
+
+.check-box { -fx-text-fill: -app-text; -fx-font-size: 16px; -fx-cursor: hand; }
+.check-box .box {
+    -fx-background-color: #10131a;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+.check-box:selected .box  { -fx-background-color: -app-accent; -fx-border-color: -app-accent; }
+.check-box:selected .mark { -fx-background-color: white; }
+
+/* =====================================================================
+   Sign-in screens
+   ===================================================================== */
+
+.auth-root {
+    -fx-background-color: radial-gradient(center 50% 0%, radius 85%, #163966 0%, #0d1522 45%, #0b0d12 100%);
+    -fx-padding: 40;
+}
+
+.auth-card {
+    -fx-background-color: #131820f2;
+    -fx-background-radius: 14;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 14;
+    -fx-padding: 36 44 36 44;
+    -fx-spacing: 8;
+    -fx-effect: dropshadow(gaussian, #000000aa, 36, 0, 0, 12);
+}
+
+.auth-brand {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -app-accent;
+}
+
+.auth-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.auth-subtitle {
+    -fx-font-size: 15px;
+    -fx-text-fill: -app-muted;
+}
+
+.field-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #d3d9e3;
+    -fx-padding: 10 0 0 0;
+}
+
+.field-hint {
+    -fx-font-size: 13px;
+    -fx-text-fill: -app-muted;
+}
+
+.error-label   { -fx-text-fill: -app-danger;  -fx-font-size: 14px; }
+.success-label { -fx-text-fill: -app-success; -fx-font-size: 14px; }
+
+/* Live password checklist */
+.password-rules {
+    -fx-background-color: #0e1117;
+    -fx-background-radius: 8;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 8;
+    -fx-padding: 12 16 12 16;
+    -fx-spacing: 4;
+}
+.password-rules-header { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+.rule-met   { -fx-font-size: 14px; -fx-text-fill: -app-success; }
+.rule-unmet { -fx-font-size: 14px; -fx-text-fill: -app-muted; }
+
+/* =====================================================================
+   Cards (courses, chapters, roles)
+   ===================================================================== */
+
+.card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 20;
+    -fx-alignment: top-left;
+    -fx-effect: dropshadow(gaussian, #00000070, 14, 0, 0, 4);
+}
+.card:hover {
+    -fx-background-color: -app-surface-2;
+    -fx-border-color: -app-accent;
+    -fx-translate-y: -3;
+    -fx-effect: dropshadow(gaussian, #148eff40, 20, 0, 0, 6);
+}
+.card:pressed { -fx-translate-y: 0; }
+.card:focused { -fx-border-color: -app-accent; }
+
+.card-title    { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: -app-accent; }
+.card-subtitle { -fx-font-size: 15px; -fx-text-fill: -app-text; }
+.card-stats    { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+
+.card-highlight { -fx-border-color: #f2a93b66; }
+.card-highlight .card-title { -fx-text-fill: -app-warning; }
+.card-highlight:hover { -fx-border-color: -app-warning; -fx-effect: dropshadow(gaussian, #f2a93b40, 20, 0, 0, 6); }
+
+.add-card {
+    -fx-background-color: transparent;
+    -fx-border-color: #3a4252;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+    -fx-alignment: center;
+    -fx-effect: null;
+}
+.add-card:hover {
+    -fx-background-color: #148eff14;
+    -fx-border-color: -app-accent;
+    -fx-effect: null;
+}
+.add-card-plus { -fx-font-size: 46px; -fx-text-fill: -app-accent; }
+.add-card-text { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+
+/* =====================================================================
+   Question lists
+   ===================================================================== */
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+.list-view:focused { -fx-background-color: transparent; }
+.list-view .placeholder .label { -fx-text-fill: -app-muted; -fx-font-size: 15px; }
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: -app-text;
+}
+
+.question-cell { -fx-padding: 0 0 10 0; -fx-cursor: hand; }
+
+.question-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 16 20 16 20;
+}
+.question-cell:hover .question-card {
+    -fx-background-color: -app-surface-2;
+    -fx-border-color: -app-accent;
+}
+
+.question-title { -fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: white; }
+.question-meta  { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+
+.badge {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-padding: 3 9 3 9;
+    -fx-background-radius: 10;
+}
+.badge-open     { -fx-background-color: #f2a93b26; -fx-text-fill: -app-warning; }
+.badge-resolved { -fx-background-color: #35c47c26; -fx-text-fill: -app-success; }
+
+/* =====================================================================
+   Question detail
+   ===================================================================== */
+
+.detail-title { -fx-font-size: 30px; -fx-font-weight: bold; -fx-text-fill: white; }
+.detail-meta  { -fx-font-size: 14px; -fx-text-fill: -app-muted; }
+.detail-body  { -fx-font-size: 16px; -fx-text-fill: #d5dbe4; }
+
+.answer-card {
+    -fx-background-color: -app-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -app-border;
+    -fx-border-radius: 10;
+    -fx-padding: 16 20 16 20;
+}
+.answer-card-accepted {
+    -fx-background-color: #35c47c10;
+    -fx-border-color: -app-success;
+    -fx-border-width: 2;
+}
+.answer-meta          { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+.answer-meta-accepted { -fx-font-size: 13px; -fx-text-fill: -app-success; -fx-font-weight: bold; }
+.answer-text          { -fx-font-size: 16px; }
+
+.review-box {
+    -fx-padding: 6 0 6 14;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: transparent transparent transparent -app-muted;
+}
+.review-correct   { -fx-border-color: transparent transparent transparent -app-success; }
+.review-partial   { -fx-border-color: transparent transparent transparent -app-warning; }
+.review-incorrect { -fx-border-color: transparent transparent transparent -app-danger; }
+.review-header    { -fx-font-size: 13px; -fx-font-weight: bold; }
+.review-correct-text   { -fx-text-fill: -app-success; }
+.review-partial-text   { -fx-text-fill: -app-warning; }
+.review-incorrect-text { -fx-text-fill: -app-danger; }
+
+.review-form {
+    -fx-background-color: #0f1218;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+}
+.review-form-title { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+
+/* =====================================================================
+   Scroll panes, scroll bars, tabs, separators, tooltips
+   ===================================================================== */
+
+.scroll-pane, .scroll-pane > .viewport, .scroll-pane .corner {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.scroll-bar { -fx-background-color: transparent; }
+.scroll-bar .thumb { -fx-background-color: #2e3542; -fx-background-radius: 6; }
+.scroll-bar .thumb:hover { -fx-background-color: #3d4656; }
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+.separator .line { -fx-border-color: -app-border; }
+
+.tooltip {
+    -fx-background-color: -app-surface-2;
+    -fx-text-fill: -app-text;
+    -fx-font-size: 13px;
+}
+
+/* =====================================================================
+   Dialogs
+   ===================================================================== */
+
+.dialog-pane {
+    -fx-background-color: -app-surface;
+    -fx-border-color: -app-border;
+}
+.dialog-pane > .content { -fx-padding: 20 24 8 24; }
+.dialog-pane > .content.label { -fx-font-size: 15px; -fx-text-fill: -app-text; }
+.dialog-pane > .button-bar > .container { -fx-background-color: transparent; -fx-padding: 8 16 16 16; }
+.dialog-title { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: white; }

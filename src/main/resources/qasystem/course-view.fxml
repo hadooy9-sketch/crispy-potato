@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.CourseViewController">
+
+   <top>
+      <HBox styleClass="top-bar">
+         <children>
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Label text="Q&amp;A" styleClass="brand-accent" />
+            <Label text="SYSTEM" styleClass="brand" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="followButton" mnemonicParsing="false" onAction="#toggleFollow" />
+            <Button fx:id="deleteCourseButton" text="Delete Course" mnemonicParsing="false"
+                    onAction="#deleteCourse" styleClass="danger-button" />
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true">
+         <content>
+            <VBox styleClass="page">
+               <children>
+                  <Label fx:id="courseCodeLabel" styleClass="hero-code" />
+                  <Label fx:id="courseTitleLabel" styleClass="hero-title" wrapText="true" minHeight="-Infinity" />
+                  <Label fx:id="courseSubtitleLabel" styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity"
+                         text="Open a chapter to see its questions - or start with the ones still waiting for an answer." />
+                  <!-- Cards added by CourseViewController -->
+                  <FlowPane fx:id="chaptersPane" hgap="18.0" vgap="18.0" style="-fx-padding: 14 0 0 0;" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

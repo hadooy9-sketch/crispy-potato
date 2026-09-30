@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fitToWidth="true" fitToHeight="true"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.FirstUserController">
+   <content>
+      <StackPane styleClass="auth-root">
+         <children>
+            <VBox styleClass="auth-card" maxWidth="480.0" maxHeight="-Infinity">
+               <children>
+                  <Label text="Q&amp;A SYSTEM  ·  FIRST-TIME SETUP" styleClass="auth-brand" />
+                  <Label text="Create the admin account" styleClass="auth-title" wrapText="true" minHeight="-Infinity" />
+                  <Label text="You are the first user, so this account becomes the administrator. You will log in with it next."
+                         styleClass="auth-subtitle" wrapText="true" minHeight="-Infinity" />
+
+                  <Label text="Username" styleClass="field-label" />
+                  <TextField fx:id="usernameField" promptText="At least 3 characters, no spaces" />
+
+                  <Label text="Password" styleClass="field-label" />
+                  <PasswordField fx:id="passwordField" promptText="Choose a strong password" />
+                  <VBox fx:id="passwordRulesBox" />
+
+                  <Label text="Confirm password" styleClass="field-label" />
+                  <PasswordField fx:id="confirmPasswordField" promptText="Type it again" />
+                  <Label fx:id="matchLabel" />
+
+                  <Label fx:id="messageLabel" styleClass="error-label" wrapText="true" minHeight="-Infinity" />
+                  <Button text="Create Admin Account" defaultButton="true" maxWidth="Infinity"
+                          mnemonicParsing="false" onAction="#createAccount" styleClass="primary-button,big-button" />
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </content>
+</ScrollPane>

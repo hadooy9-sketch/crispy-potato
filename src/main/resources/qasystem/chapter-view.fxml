@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.ChapterViewController">
+
+   <top>
+      <HBox styleClass="top-bar">
+         <children>
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Label text="Q&amp;A" styleClass="brand-accent" />
+            <Label text="SYSTEM" styleClass="brand" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="askButton" text="+  Ask a Question" mnemonicParsing="false"
+                    onAction="#askQuestion" styleClass="primary-button" />
+            <Button fx:id="deleteChapterButton" text="Delete Chapter" mnemonicParsing="false"
+                    onAction="#deleteChapter" styleClass="danger-button" />
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <VBox styleClass="page">
+         <children>
+            <Label fx:id="breadcrumbLabel" styleClass="breadcrumb" />
+            <Label fx:id="headingLabel" styleClass="hero-title" wrapText="true" minHeight="-Infinity" />
+            <Label fx:id="subheadingLabel" styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity" />
+            <ListView fx:id="questionList" VBox.vgrow="ALWAYS" style="-fx-padding: 10 0 0 0;" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
