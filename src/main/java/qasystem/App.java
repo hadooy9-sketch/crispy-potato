@@ -59,7 +59,7 @@ public class App extends Application implements Navigator {
     @Override
     public void start(Stage stage) throws IOException {
         Clock clock = Clock.systemDefaultZone(); // tests will pass a fixed clock instead
-
+           System.out.println("DEBUG args = " + getParameters().getRaw());
         qaSystem = new QASystem();
         userService = new UserService(qaSystem, clock);
         invitationService = new InvitationService(qaSystem, clock);
@@ -69,13 +69,22 @@ public class App extends Application implements Navigator {
         viewContext = new ViewContext();
         registerControllers();
 
-        Screen firstScreen = userService.needsFirstUser() ? Screen.FIRST_USER : Screen.LOGIN;
+        // Started with "--dev"? Skip login and go straight to the role chooser.
+        boolean devMode = getParameters().getRaw().contains(DevMode.ARGUMENT);
+
+        Screen firstScreen;
+        if (devMode) {
+            DevMode.logInDevUser(qaSystem, userService);
+            firstScreen = Screen.ROLE_SELECT;
+        } else {
+            firstScreen = userService.needsFirstUser() ? Screen.FIRST_USER : Screen.LOGIN;
+        }
 
         scene = new Scene(loadFXML(firstScreen), WINDOW_WIDTH, WINDOW_HEIGHT);
         // One stylesheet for the whole app. It stays on the Scene when goTo() swaps the root.
         scene.getStylesheets().add(App.class.getResource("app.css").toExternalForm());
 
-        stage.setTitle("Q&A System");
+        stage.setTitle(devMode ? "Q&A System  [DEV MODE]" : "Q&A System");
         stage.setScene(scene);
         stage.setMinWidth(1000);
         stage.setMinHeight(700);
@@ -85,26 +94,37 @@ public class App extends Application implements Navigator {
     private void registerControllers() {
         controllerFactories.put(LoginController.class,
                 () -> new LoginController(userService, this));
+
         controllerFactories.put(FirstUserController.class,
                 () -> new FirstUserController(userService, this));
+
         controllerFactories.put(RegisterController.class,
                 () -> new RegisterController(userService, this));
+
         controllerFactories.put(RoleSelectController.class,
                 () -> new RoleSelectController(userService, this));
+
         controllerFactories.put(CoursesHomeController.class,
                 () -> new CoursesHomeController(userService, courseService, questionService, viewContext, this));
+
         controllerFactories.put(InvitationsController.class,
                 () -> new InvitationsController(invitationService, this));
+
         controllerFactories.put(CourseViewController.class,
                 () -> new CourseViewController(userService, courseService, questionService, viewContext, this));
+
         controllerFactories.put(ChapterViewController.class,
                 () -> new ChapterViewController(courseService, questionService, viewContext, this));
+
         controllerFactories.put(AskQuestionController.class,
                 () -> new AskQuestionController(courseService, questionService, viewContext, this));
+
         controllerFactories.put(QuestionDetailController.class,
                 () -> new QuestionDetailController(questionService, reviewService, viewContext, this));
+
         controllerFactories.put(ReviewerController.class,
                 () -> new ReviewerController(userService, courseService, questionService, reviewService, viewContext, this));
+                
     }
 
     /** Navigator: replace what the window shows. */
@@ -137,6 +157,6 @@ public class App extends Application implements Navigator {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

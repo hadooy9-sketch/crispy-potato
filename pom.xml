@@ -5,6 +5,7 @@
     <artifactId>demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
+        <appArgs></appArgs>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>26</maven.compiler.source>
         <maven.compiler.target>26</maven.compiler.target>
@@ -13,7 +14,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>13</version>
+            <version>26</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -22,6 +23,7 @@
         </dependency>
     </dependencies>
     <build>
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,20 +34,30 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
-                <executions>
-                    <execution>
-                        <!-- Default configuration for running -->
-                        <!-- Usage: mvn clean javafx:run -->
-                        <id>default-cli</id>
-                        <configuration>
-                            <mainClass>qasystem.App</mainClass>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
+            <configuration>
+                <commandlineArgs>${appArgs}</commandlineArgs>
+                <options>
+            <option>--enable-native-access=javafx.graphics</option>
+            </options>
+                <mainClass>qasystem/qasystem.App</mainClass>
+                <launcher>qasystem</launcher>
+                <jlinkImageName>qasystem-runtime</jlinkImageName>
+                <noHeaderFiles>true</noHeaderFiles>
+                <noManPages>true</noManPages>
+                <stripDebug>true</stripDebug>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
+    <profiles>
+    <profile>
+        <id>dev</id>
+        <properties>
+            <appArgs>--dev</appArgs>
+        </properties>
+    </profile>
+</profiles>
 </project>
