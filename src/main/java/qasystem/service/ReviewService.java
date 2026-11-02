@@ -48,12 +48,14 @@ public class ReviewService {
         LocalDateTime now = LocalDateTime.now(clock);
         Review existing = answer.findReviewBy(me);
         if (existing != null) {
-            existing.update(verdict, comment, now);
+            qaSystem.updateReview(answer.getId(), existing, verdict, comment, now);
             return existing;
         }
 
         Review review = new Review(me, verdict, comment, now); // validates
-        answer.addReview(review);
+        if (!qaSystem.addReview(answer.getId(), review)) {
+            throw new IllegalStateException("You already reviewed this answer. Refresh and edit your review.");
+        }
         return review;
     }
 

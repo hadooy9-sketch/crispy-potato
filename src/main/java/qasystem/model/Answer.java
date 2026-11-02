@@ -70,12 +70,28 @@ public class Answer {
         return null;
     }
 
-    /** Invariant: one review per reviewer. Returns false if they already reviewed. */
-    public boolean addReview(Review review) {
+    /**
+     * Invariant: one review per reviewer. Returns false if they already reviewed.
+     * Package-private: only QASystem builds answers with their reviews.
+     */
+    boolean addReview(Review review) {
         if (findReviewBy(review.getReviewer()) != null) {
             return false;
         }
         reviews.add(review);
         return true;
+    }
+
+    // ---------- Identity ----------
+
+    /** Same id = same answer (every database read creates new objects). */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Answer a && a.id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
     }
 }

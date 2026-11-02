@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * A question asked in one chapter of one course.
+ * A snapshot loaded from the database: changes are saved through QASystem.
  * Owns its answers, and is the only place that knows which answer was accepted.
  */
 public class Question {
@@ -85,7 +86,8 @@ public class Question {
         return List.copyOf(answers);
     }
 
-    public void addAnswer(Answer answer) {
+    /** Package-private: only QASystem builds questions with their answers. */
+    void addAnswer(Answer answer) {
         answers.add(answer);
     }
 
@@ -112,10 +114,11 @@ public class Question {
 
     /**
      * Marks one of this question's answers as the accepted one.
+     * Package-private: QASystem calls it to check the rule, then saves the change.
      * @throws IllegalStateException if already resolved
      * @throws IllegalArgumentException if the answer is not on this question
      */
-    public void markResolved(long answerId) {
+    void markResolved(long answerId) {
         if (isResolved()) {
             throw new IllegalStateException("This question is already resolved.");
         }
@@ -124,5 +127,21 @@ public class Question {
             throw new IllegalArgumentException("That answer does not belong to this question.");
         }
         this.acceptedAnswer = answer;
+    }
+
+    // ---------- Identity ----------
+
+    /**
+     * Two Question objects are the same question if they have the same id.
+     * Needed because every database read creates new objects.
+     */
+    @Override
+    public boolean equals(Object other) {
+        return other instanceof Question q && q.id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(id);
     }
 }

@@ -6,6 +6,8 @@ package qasystem.model;
  */
 public class Chapter {
 
+    private static final int MAX_TITLE_LENGTH = 200; // matches chapters.title VARCHAR(200)
+
     private final int number;
     private final String title;
 
@@ -15,6 +17,10 @@ public class Chapter {
         }
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("Chapter title is required.");
+        }
+        if (title.trim().length() > MAX_TITLE_LENGTH) {
+            throw new IllegalArgumentException(
+                "Chapter title must be at most " + MAX_TITLE_LENGTH + " characters.");
         }
         this.number = number;
         this.title = title.trim();

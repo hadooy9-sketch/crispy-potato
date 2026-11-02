@@ -16,6 +16,7 @@ import java.util.List;
 public class UserService {
 
     private static final int MIN_USERNAME_LENGTH = 3;
+    private static final int MAX_USERNAME_LENGTH = 30; // matches users.username VARCHAR(30)
 
     private final QASystem qaSystem;
     private final Clock clock;
@@ -43,7 +44,7 @@ public class UserService {
         validateUsername(username);
         validatePassword(password);
 
-        User admin = new User(username, password);
+        User admin = new User(username, password); // hashes the password
         admin.addRole(Role.ADMIN);
         qaSystem.addUser(admin);
     }
@@ -75,7 +76,7 @@ public class UserService {
         validatePassword(password);
 
         // 3. Decide the roles - every user ends up with at least one
-        User user = new User(username, password);
+        User user = new User(username, password); // hashes the password
         if (invitation == null) {
             user.addRole(Role.STUDENT);
         } else {
@@ -84,15 +85,18 @@ public class UserService {
             }
         }
 
-        // 4. Add the user
-        if (!qaSystem.addUser(user)) {
-            throw new IllegalArgumentException("That username is already taken.");
-        }
-
-        // 5. Only now use up the code, so a failed signup never wastes it
-        if (invitation != null) {
-            invitation.markUsed();
-        }
+        // 4 + 5. Save the user AND use up the code as ONE transaction:
+        // if either step fails, neither is saved - a failed signup never wastes the code.
+        Invitation code = invitation;
+        LocalDateTime now = LocalDateTime.now(clock);
+        qaSystem.inTransaction(() -> {
+            if (!qaSystem.addUser(user)) {
+                throw new IllegalArgumentException("That username is already taken.");
+            }
+            if (code != null && !qaSystem.claimInvitation(code.getCode(), now)) {
+                throw new IllegalArgumentException("Invite code is invalid, expired, or already used.");
+            }
+        });
     }
 
     // ---------- Login / roles / logout ----------
@@ -153,6 +157,10 @@ public class UserService {
         if (username.length() < MIN_USERNAME_LENGTH) {
             throw new IllegalArgumentException(
                 "Username must be at least " + MIN_USERNAME_LENGTH + " characters.");
+        }
+        if (username.length() > MAX_USERNAME_LENGTH) {
+            throw new IllegalArgumentException(
+                "Username must be at most " + MAX_USERNAME_LENGTH + " characters.");
         }
         if (username.contains(" ")) {
             throw new IllegalArgumentException("Username cannot contain spaces.");

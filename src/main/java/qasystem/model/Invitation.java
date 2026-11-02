@@ -7,16 +7,23 @@ import java.util.Set;
 
 /**
  * A one-time code that grants roles to whoever registers with it,
- * valid until a deadline.
+ * valid until a deadline. Using it up happens in the database
+ * (QASystem.claimInvitation), so two people can never use the same code.
  */
 public class Invitation {
 
     private final String code;
     private final EnumSet<Role> roles;
     private final LocalDateTime expiresAt;
-    private boolean used;
+    private final boolean used;
 
+    /** A new, unused invitation. */
     public Invitation(String code, Set<Role> roles, LocalDateTime expiresAt) {
+        this(code, roles, expiresAt, false);
+    }
+
+    /** Package-private: QASystem rebuilds saved invitations, which may be used. */
+    Invitation(String code, Set<Role> roles, LocalDateTime expiresAt, boolean used) {
         if (code == null || code.isBlank()) {
             throw new IllegalArgumentException("Invitation code is required.");
         }
@@ -29,7 +36,7 @@ public class Invitation {
         this.code = code;
         this.roles = EnumSet.copyOf(roles); // defensive copy
         this.expiresAt = expiresAt;
-        this.used = false;
+        this.used = used;
     }
 
     public String getCode() {
@@ -55,13 +62,5 @@ public class Invitation {
 
     public boolean isUsable(LocalDateTime now) {
         return !used && !isExpired(now);
-    }
-
-    /** One-time: using a code twice is a bug, so fail loudly. */
-    public void markUsed() {
-        if (used) {
-            throw new IllegalStateException("Invitation " + code + " was already used.");
-        }
-        used = true;
     }
 }

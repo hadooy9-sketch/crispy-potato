@@ -9,7 +9,8 @@ import java.util.TreeMap;
  */
 public class Course {
 
-    private static final int MAX_CODE_LENGTH = 15;
+    private static final int MAX_CODE_LENGTH = 15;   // matches courses.code VARCHAR(15)
+    private static final int MAX_TITLE_LENGTH = 200; // matches courses.title VARCHAR(200)
 
     private final String code;
     private final String title;
@@ -26,6 +27,10 @@ public class Course {
         }
         if (title == null || title.isBlank()) {
             throw new IllegalArgumentException("Course title is required.");
+        }
+        if (title.trim().length() > MAX_TITLE_LENGTH) {
+            throw new IllegalArgumentException(
+                "Course title must be at most " + MAX_TITLE_LENGTH + " characters.");
         }
         this.code = normalized;
         this.title = title.trim();
@@ -63,14 +68,12 @@ public class Course {
         return chapters.get(number);
     }
 
-    /** Returns false if a chapter with that number already exists. */
-    public boolean addChapter(Chapter chapter) {
+    /**
+     * Returns false if a chapter with that number already exists.
+     * Package-private: only QASystem builds courses (adding a chapter for real goes through QASystem).
+     */
+    boolean addChapter(Chapter chapter) {
         return chapters.putIfAbsent(chapter.getNumber(), chapter) == null;
-    }
-
-    /** Returns false if there was no chapter with that number. */
-    public boolean removeChapter(int number) {
-        return chapters.remove(number) != null;
     }
 
     /** Suggestion for the next chapter: one after the highest, or 1. */

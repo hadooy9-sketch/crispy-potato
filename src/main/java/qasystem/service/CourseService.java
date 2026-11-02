@@ -7,7 +7,9 @@ import qasystem.model.Role;
 import qasystem.model.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Owns course and chapter behavior.
@@ -62,10 +64,14 @@ public class CourseService {
 
     /** The current user's followed courses, in the order they followed them. */
     public List<Course> getFollowedCourses() {
+        Map<String, Course> byCode = new HashMap<>();
+        for (Course course : qaSystem.getCourses()) {
+            byCode.put(course.getCode(), course);
+        }
         List<Course> result = new ArrayList<>();
-        for (String code : requireUser().getFollowedCourseCodes()) {
-            Course course = qaSystem.findCourse(code);
-            if (course != null) { // safety net: QASystem already removes follows of deleted courses
+        for (String code : qaSystem.getFollowedCourseCodes(requireUser().getUsername())) {
+            Course course = byCode.get(code);
+            if (course != null) { // safety net: the database already removes follows of deleted courses
                 result.add(course);
             }
         }
@@ -74,15 +80,15 @@ public class CourseService {
 
     public void followCourse(String code) {
         Course course = requireCourse(code);
-        requireUser().followCourse(course.getCode());
+        qaSystem.followCourse(requireUser().getUsername(), course.getCode());
     }
 
     public void unfollowCourse(String code) {
-        requireUser().unfollowCourse(Course.normalizeCode(code));
+        qaSystem.unfollowCourse(requireUser().getUsername(), Course.normalizeCode(code));
     }
 
     public boolean isFollowing(String code) {
-        return requireUser().isFollowing(Course.normalizeCode(code));
+        return qaSystem.isFollowing(requireUser().getUsername(), Course.normalizeCode(code));
     }
 
     // =====================================================================
@@ -112,7 +118,7 @@ public class CourseService {
         return course;
     }
 
-    /** Deletes the course, its chapters, its questions, and everyone's follow of it. */
+    /** Deletes the course; the database cascades to its chapters, questions, and follows. */
     public void deleteCourse(String code) {
         Access.requireRole(qaSystem, Role.ADMIN, "delete courses");
         String normalized = Course.normalizeCode(code);
@@ -129,14 +135,14 @@ public class CourseService {
         Access.requireRole(qaSystem, Role.ADMIN, "add chapters");
         Course course = requireCourse(courseCode);
         Chapter chapter = new Chapter(number, title); // validates
-        if (!course.addChapter(chapter)) {
+        if (!qaSystem.addChapter(course.getCode(), chapter)) {
             throw new IllegalArgumentException(
                 "Chapter " + number + " already exists in " + course.getCode() + ".");
         }
         return chapter;
     }
 
-    /** Deletes the chapter and all of its questions. */
+    /** Deletes the chapter; the database cascades to its questions. */
     public void deleteChapter(String courseCode, int number) {
         Access.requireRole(qaSystem, Role.ADMIN, "delete chapters");
         Course course = requireCourse(courseCode);

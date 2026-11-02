@@ -68,7 +68,13 @@ public class CourseViewController {
     }
 
     private void refreshCards() {
+        // Re-read the course: the copy we hold is a snapshot and may be out of date
+        // (e.g. right after adding a chapter, or if someone else changed it).
+        course = courseService.findCourse(course.getCode());
         chaptersPane.getChildren().clear();
+        if (course == null) {
+            return;
+        }
 
         // Spec: "a list of all unresolved questions" - always the first card.
         Button unresolved = Cards.card("Unresolved", "Questions still waiting for an accepted answer",

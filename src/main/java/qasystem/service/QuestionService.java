@@ -48,11 +48,11 @@ public class QuestionService {
                 "Chapter " + chapterNumber + " does not exist in " + course.getCode() + ".");
         }
 
-        Question question = new Question(
-                qaSystem.generateQuestionId(), course.getCode(), chapterNumber,
-                title, body, currentUsername(), LocalDateTime.now(clock));
-        qaSystem.addQuestion(question);
-        return question;
+        // id 0 = "not saved yet". Creating it here runs the validation;
+        // the database then assigns the real id.
+        Question draft = new Question(
+                0, course.getCode(), chapterNumber, title, body, currentUsername(), LocalDateTime.now(clock));
+        return qaSystem.addQuestion(draft);
     }
 
     // =====================================================================
@@ -136,32 +136,19 @@ public class QuestionService {
     // =====================================================================
 
     public int countQuestions(String courseCode) {
-        String code = Course.normalizeCode(courseCode);
-        int count = 0;
-        for (Question question : qaSystem.getQuestions()) {
-            if (question.getCourseCode().equals(code)) {
-                count++;
-            }
-        }
-        return count;
+        return qaSystem.countQuestions(Course.normalizeCode(courseCode), null, false);
     }
 
     public int countQuestions(String courseCode, int chapterNumber) {
-        return getQuestions(courseCode, chapterNumber).size();
+        return qaSystem.countQuestions(Course.normalizeCode(courseCode), chapterNumber, false);
     }
 
     public int countUnresolved(String courseCode) {
-        return getUnresolvedQuestions(courseCode).size();
+        return qaSystem.countQuestions(Course.normalizeCode(courseCode), null, true);
     }
 
     public int countUnresolved(String courseCode, int chapterNumber) {
-        int count = 0;
-        for (Question question : getQuestions(courseCode, chapterNumber)) {
-            if (!question.isResolved()) {
-                count++;
-            }
-        }
-        return count;
+        return qaSystem.countQuestions(Course.normalizeCode(courseCode), chapterNumber, true);
     }
 
     // =====================================================================
@@ -178,10 +165,8 @@ public class QuestionService {
         if (question.isResolved()) {
             throw new IllegalArgumentException("This question is already resolved.");
         }
-        Answer answer = new Answer(
-                qaSystem.generateAnswerId(), text, currentUsername(), LocalDateTime.now(clock));
-        question.addAnswer(answer);
-        return answer;
+        Answer draft = new Answer(0, text, currentUsername(), LocalDateTime.now(clock)); // validates
+        return qaSystem.addAnswer(question.getId(), draft);
     }
 
     /**
@@ -194,7 +179,7 @@ public class QuestionService {
         if (!question.getAuthor().equals(currentUsername())) {
             throw new IllegalStateException("Only the student who asked can mark it resolved.");
         }
-        question.markResolved(answerId);
+        qaSystem.resolveQuestion(question, answerId);
     }
 
     // =====================================================================
