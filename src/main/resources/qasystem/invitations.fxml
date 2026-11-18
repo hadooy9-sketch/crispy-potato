@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.InvitationsController">
+
+   <top>
+      <HBox styleClass="top-bar">
+         <children>
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Label text="Q&amp;A" styleClass="brand-accent" />
+            <Label text="SYSTEM" styleClass="brand" />
+            <Region HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true">
+         <content>
+            <VBox styleClass="page">
+               <children>
+                  <Label text="ADMIN" styleClass="breadcrumb" />
+                  <Label text="Invite people" styleClass="hero-title" />
+                  <Label text="Create a one-time code that grants roles and expires after a deadline. Students can also sign up without a code."
+                         styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity" />
+
+                  <VBox styleClass="panel" maxWidth="680.0">
+                     <children>
+                        <Label text="Roles to grant" styleClass="field-label" />
+                        <HBox spacing="28.0">
+                           <children>
+                              <CheckBox fx:id="adminCheck" mnemonicParsing="false" text="Admin" />
+                              <CheckBox fx:id="studentCheck" mnemonicParsing="false" text="Student" />
+                              <CheckBox fx:id="reviewerCheck" mnemonicParsing="false" text="Reviewer" />
+                           </children>
+                        </HBox>
+
+                        <Label text="Valid for (days)" styleClass="field-label" />
+                        <HBox spacing="16.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Spinner fx:id="daysSpinner" editable="false" initialValue="7" max="30" min="1" prefWidth="120.0" />
+                              <Button text="Generate Code" mnemonicParsing="false" onAction="#generateInvite" styleClass="primary-button" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="messageLabel" styleClass="error-label" wrapText="true" minHeight="-Infinity" />
+
+                        <Separator />
+
+                        <Label text="Invite code" styleClass="field-label" />
+                        <HBox spacing="12.0" alignment="CENTER_LEFT">
+                           <children>
+                              <TextField fx:id="codeField" editable="false" prefWidth="260.0"
+                                         promptText="--------" styleClass="code-field" />
+                              <Button fx:id="copyButton" text="Copy" mnemonicParsing="false" onAction="#copyCode" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="detailsLabel" styleClass="field-hint" wrapText="true" minHeight="-Infinity" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

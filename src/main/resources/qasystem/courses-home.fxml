@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<!-- Shared by admins and students. CoursesHomeController shows/hides the role-specific parts. -->
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.CoursesHomeController">
+
+   <top>
+      <HBox styleClass="top-bar">
+         <children>
+            <Label text="Q&amp;A" styleClass="brand-accent" />
+            <Label text="SYSTEM" styleClass="brand" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="userLabel" styleClass="user-chip" />
+            <Button fx:id="invitationsButton" text="Invitations" mnemonicParsing="false" onAction="#openInvitations" />
+            <Button text="Log Out" mnemonicParsing="false" onAction="#logout" />
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true">
+         <content>
+            <VBox styleClass="page">
+               <children>
+                  <Label fx:id="heroTitle" styleClass="hero-title" />
+                  <Label fx:id="heroSubtitle" styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity" />
+                  <TextField fx:id="searchField" maxWidth="560.0" styleClass="search-field"
+                             promptText="Search courses by code or name  (e.g. MAT 117, calculus)" />
+
+                  <VBox fx:id="myCoursesSection" spacing="14.0">
+                     <children>
+                        <Label text="My Courses" styleClass="section-title" />
+                        <FlowPane fx:id="myCoursesPane" hgap="18.0" vgap="18.0" />
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="14.0">
+                     <children>
+                        <Label text="All Courses" styleClass="section-title" />
+                        <FlowPane fx:id="allCoursesPane" hgap="18.0" vgap="18.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="qasystem.controller.QuestionDetailController">
+
+   <top>
+      <HBox styleClass="top-bar">
+         <children>
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Label text="Q&amp;A" styleClass="brand-accent" />
+            <Label text="SYSTEM" styleClass="brand" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="deleteButton" text="Delete Question" mnemonicParsing="false"
+                    onAction="#deleteQuestion" styleClass="danger-button" />
+         </children>
+      </HBox>
+   </top>
+
+   <center>
+      <ScrollPane fitToWidth="true">
+         <content>
+            <VBox styleClass="page" alignment="TOP_CENTER">
+               <children>
+                  <!-- Limit the reading width so long text stays comfortable -->
+                  <VBox spacing="12.0" maxWidth="980.0">
+                     <children>
+                        <Label fx:id="breadcrumbLabel" styleClass="breadcrumb" />
+                        <HBox spacing="12.0" alignment="CENTER_LEFT">
+                           <children>
+                              <Label fx:id="statusLabel" styleClass="badge" />
+                              <Label fx:id="metaLabel" styleClass="detail-meta" />
+                           </children>
+                        </HBox>
+                        <Label fx:id="titleLabel" styleClass="detail-title" wrapText="true" minHeight="-Infinity" />
+                        <Label fx:id="bodyLabel" styleClass="detail-body" wrapText="true" minHeight="-Infinity" />
+                        <Label fx:id="messageLabel" styleClass="error-label" wrapText="true" minHeight="-Infinity" />
+
+                        <Label fx:id="answersHeader" styleClass="section-title" />
+                        <VBox fx:id="answersBox" spacing="12.0" />
+
+                        <Label fx:id="resolvedNote" styleClass="notice" maxWidth="Infinity"
+                               text="This question is resolved - new answers are closed." />
+
+                        <VBox fx:id="answerForm" styleClass="panel">
+                           <children>
+                              <Label text="Propose an answer" styleClass="section-title" style="-fx-padding: 0;" />
+                              <TextArea fx:id="answerArea" prefRowCount="5" wrapText="true"
+                                        promptText="Explain your answer so others can learn from it" />
+                              <HBox spacing="12.0" alignment="CENTER_LEFT">
+                                 <children>
+                                    <Button text="Submit Answer" mnemonicParsing="false"
+                                            onAction="#submitAnswer" styleClass="primary-button" />
+                                    <Label fx:id="answerMessageLabel" styleClass="error-label" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
