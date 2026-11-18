@@ -34,14 +34,20 @@
                   <VBox spacing="12.0" maxWidth="980.0">
                      <children>
                         <Label fx:id="breadcrumbLabel" styleClass="breadcrumb" />
-                        <HBox spacing="12.0" alignment="CENTER_LEFT">
+                        <!-- The question itself, in its own card so it reads as a question -->
+                        <VBox styleClass="question-bubble" spacing="12.0">
                            <children>
-                              <Label fx:id="statusLabel" styleClass="badge" />
-                              <Label fx:id="metaLabel" styleClass="detail-meta" />
+                              <HBox spacing="12.0" alignment="CENTER_LEFT">
+                                 <children>
+                                    <Label fx:id="askerAvatar" styleClass="avatar,avatar-small" />
+                                    <Label fx:id="metaLabel" styleClass="detail-meta" />
+                                    <Label fx:id="statusLabel" styleClass="badge" />
+                                 </children>
+                              </HBox>
+                              <Label fx:id="titleLabel" styleClass="detail-title" wrapText="true" minHeight="-Infinity" />
+                              <Label fx:id="bodyLabel" styleClass="detail-body" wrapText="true" minHeight="-Infinity" />
                            </children>
-                        </HBox>
-                        <Label fx:id="titleLabel" styleClass="detail-title" wrapText="true" minHeight="-Infinity" />
-                        <Label fx:id="bodyLabel" styleClass="detail-body" wrapText="true" minHeight="-Infinity" />
+                        </VBox>
                         <Label fx:id="messageLabel" styleClass="error-label" wrapText="true" minHeight="-Infinity" />
 
                         <Label fx:id="answersHeader" styleClass="section-title" />
@@ -50,9 +56,9 @@
                         <Label fx:id="resolvedNote" styleClass="notice" maxWidth="Infinity"
                                text="This question is resolved - new answers are closed." />
 
-                        <VBox fx:id="answerForm" styleClass="panel">
+                        <VBox fx:id="answerForm" styleClass="panel,reply-panel">
                            <children>
-                              <Label text="Propose an answer" styleClass="section-title" style="-fx-padding: 0;" />
+                              <Label text="Write an answer" styleClass="section-title" style="-fx-padding: 0;" />
                               <TextArea fx:id="answerArea" prefRowCount="5" wrapText="true"
                                         promptText="Explain your answer so others can learn from it" />
                               <HBox spacing="12.0" alignment="CENTER_LEFT">

@@ -18,8 +18,6 @@
             <Label text="Q&amp;A" styleClass="brand-accent" />
             <Label text="SYSTEM" styleClass="brand" />
             <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="askButton" text="+  Ask a Question" mnemonicParsing="false"
-                    onAction="#askQuestion" styleClass="primary-button" />
             <Button fx:id="deleteChapterButton" text="Delete Chapter" mnemonicParsing="false"
                     onAction="#deleteChapter" styleClass="danger-button" />
          </children>
@@ -32,6 +30,21 @@
             <Label fx:id="breadcrumbLabel" styleClass="breadcrumb" />
             <Label fx:id="headingLabel" styleClass="hero-title" wrapText="true" minHeight="-Infinity" />
             <Label fx:id="subheadingLabel" styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity" />
+
+            <!-- Students only: asking is the main thing to do here, so it gets a big banner -->
+            <HBox fx:id="askBanner" styleClass="ask-banner" alignment="CENTER_LEFT" spacing="18.0">
+               <children>
+                  <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="askTitleLabel" styleClass="ask-banner-title" wrapText="true" minHeight="-Infinity" />
+                        <Label text="Ask it here and a classmate or TA can answer." styleClass="ask-banner-subtitle"
+                               wrapText="true" minHeight="-Infinity" />
+                     </children>
+                  </VBox>
+                  <Button text="+  Ask a Question" mnemonicParsing="false" onAction="#askQuestion"
+                          styleClass="primary-button,big-button" minWidth="-Infinity" />
+               </children>
+            </HBox>
             <ListView fx:id="questionList" VBox.vgrow="ALWAYS" style="-fx-padding: 10 0 0 0;" />
          </children>
       </VBox>

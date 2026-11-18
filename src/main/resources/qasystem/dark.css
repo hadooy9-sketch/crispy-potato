@@ -1,0 +1,37 @@
+/* =====================================================================
+   Dark mode. Added on top of app.css when "Dark mode" is switched on in the menu.
+   It only redefines the color names, so every screen follows automatically.
+   ===================================================================== */
+
+.root {
+    -app-bg:            #1C1416;
+    -app-surface:       #2A1F22;
+    -app-surface-2:     #35282B;
+    -app-border:        #46363A;
+    -app-input:         #241A1D;
+
+    -app-heading:       #F4B8B2;
+    -app-text:          #F3E6E2;
+    -app-muted:         #B9A39E;
+    -app-prompt:        #7C6A66;
+    -app-accent:        #E2848C;
+    -app-accent-hover:  #EC9CA3;
+    -app-accent-press:  #C86B74;
+    -app-on-accent:     #2A1F22;
+    -app-accent-soft:   #45292E;
+
+    -app-success:       #7FD39B;
+    -app-success-bg:    #1F3A2A;
+    -app-warning:       #F2C46B;
+    -app-warning-bg:    #3D3020;
+    -app-danger:        #FF8A98;
+    -app-danger-bg:     #45232A;
+    -app-dim:           rgba(0, 0, 0, 0.45);
+
+    -fx-base: #35282B;
+    -fx-background: #1C1416;
+    -fx-control-inner-background: #241A1D;
+    -fx-control-inner-background-alt: #2A1F22;
+    -fx-accent: #E2848C;
+    -fx-focus-color: #E2848C;
+}

@@ -36,6 +36,8 @@ public class RegisterController {
     private void initialize() {
         Ui.collapseWhenEmpty(messageLabel);
         new PasswordChecklist(passwordRulesBox, passwordField, confirmPasswordField, matchLabel);
+        PasswordReveal.addTo(passwordField);        // eye buttons that show the passwords
+        PasswordReveal.addTo(confirmPasswordField);
     }
 
     @FXML

@@ -34,9 +34,27 @@
                   <Label fx:id="courseCodeLabel" styleClass="hero-code" />
                   <Label fx:id="courseTitleLabel" styleClass="hero-title" wrapText="true" minHeight="-Infinity" />
                   <Label fx:id="courseSubtitleLabel" styleClass="hero-subtitle" wrapText="true" minHeight="-Infinity"
-                         text="Open a chapter to see its questions - or start with the ones still waiting for an answer." />
-                  <!-- Cards added by CourseViewController -->
-                  <FlowPane fx:id="chaptersPane" hgap="18.0" vgap="18.0" style="-fx-padding: 14 0 0 0;" />
+                         text="Ask anything about this course, or pick a chapter to see its questions." />
+
+                  <!-- The "ask" banner: asking and the open questions, filled in by CourseViewController -->
+                  <HBox fx:id="askBanner" styleClass="ask-banner" alignment="CENTER_LEFT" spacing="18.0">
+                     <children>
+                        <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="askTitleLabel" styleClass="ask-banner-title" wrapText="true" minHeight="-Infinity" />
+                              <Label fx:id="askSubtitleLabel" styleClass="ask-banner-subtitle" wrapText="true" minHeight="-Infinity" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="openQuestionsButton" mnemonicParsing="false" onAction="#openQuestions"
+                                styleClass="secondary-button" minWidth="-Infinity" />
+                        <Button fx:id="askButton" text="+  Ask a Question" mnemonicParsing="false" onAction="#askQuestion"
+                                styleClass="primary-button" minWidth="-Infinity" />
+                     </children>
+                  </HBox>
+
+                  <Label text="Chapters" styleClass="section-title" />
+                  <!-- Chapter cards (and the + card for admins) added by CourseViewController -->
+                  <FlowPane fx:id="chaptersPane" hgap="18.0" vgap="18.0" />
                </children>
             </VBox>
          </content>

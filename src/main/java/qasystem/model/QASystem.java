@@ -88,6 +88,51 @@ public class QASystem {
         });
     }
 
+    /**
+     * Removes a user account. Returns false if no user has that name.
+     * If they never posted anything, the row is deleted. If they did, their questions, answers
+     * and reviews still point at their username (the database requires it), so the account is
+     * closed instead: roles and follows are removed and the password can never match again.
+     * Their posts stay, with their name on them.
+     */
+    public boolean removeUser(String username) {
+        return database.transaction(c -> {
+            boolean posted = countWhere(c, "SELECT COUNT(*) FROM questions WHERE author = ?", username)
+                    + countWhere(c, "SELECT COUNT(*) FROM answers WHERE author = ?", username)
+                    + countWhere(c, "SELECT COUNT(*) FROM reviews WHERE reviewer = ?", username) > 0;
+            if (!posted) {
+                try (PreparedStatement ps = prepare(c, "DELETE FROM users WHERE username = ?", username)) {
+                    return ps.executeUpdate() > 0; // CASCADE removes their roles and follows
+                }
+            }
+            try (PreparedStatement ps = prepare(c, "DELETE FROM user_roles WHERE username = ?", username)) {
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = prepare(c, "DELETE FROM follows WHERE username = ?", username)) {
+                ps.executeUpdate();
+            }
+            try (PreparedStatement ps = prepare(c,
+                    "UPDATE users SET password_hash = ? WHERE username = ?", CLOSED_ACCOUNT, username)) {
+                return ps.executeUpdate() > 0;
+            }
+        });
+    }
+
+    /** Stored instead of a password hash for a closed account. It never matches any password. */
+    private static final String CLOSED_ACCOUNT = "closed-account";
+
+    /** How many users have the given role (used to protect the last admin). */
+    public int countUsersWithRole(Role role) {
+        return database.query(c -> (int) countWhere(c, "SELECT COUNT(*) FROM user_roles WHERE role = ?", role.name()));
+    }
+
+    private static long countWhere(Connection c, String sql, Object... params) throws SQLException {
+        try (PreparedStatement ps = prepare(c, sql, params); ResultSet rs = ps.executeQuery()) {
+            rs.next();
+            return rs.getLong(1);
+        }
+    }
+
     public boolean hasNoUsers() {
         return database.query(c -> {
             try (PreparedStatement ps = c.prepareStatement("SELECT COUNT(*) FROM users");

@@ -98,9 +98,5 @@ public class ReviewerController {
         }
     }
 
-    @FXML
-    private void logout() {
-        userService.logout();
-        navigator.goTo(Screen.LOGIN);
-    }
+    // Log Out moved into the slide-out menu (SideMenu).
 }

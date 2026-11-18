@@ -4,9 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import qasystem.service.UserService;
+import qasystem.util.Animations;
+import qasystem.util.Birds;
 import qasystem.util.Navigator;
 import qasystem.util.Screen;
 
@@ -20,6 +23,8 @@ public class FirstUserController {
     private final UserService userService;
     private final Navigator navigator;
 
+    @FXML private StackPane authRoot;
+    @FXML private VBox card;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private PasswordField confirmPasswordField;
@@ -36,6 +41,9 @@ public class FirstUserController {
     private void initialize() {
         Ui.collapseWhenEmpty(messageLabel);
         new PasswordChecklist(passwordRulesBox, passwordField, confirmPasswordField, matchLabel);
+        PasswordReveal.addTo(passwordField);        // eye buttons that show the passwords
+        PasswordReveal.addTo(confirmPasswordField);
+        Birds.addTo(authRoot); // a few small birds fly behind the card
     }
 
     @FXML
@@ -51,7 +59,9 @@ public class FirstUserController {
         try {
             userService.registerFirstUser(username, password);
             // Spec: after setup, the user must log in again.
-            navigator.goTo(Screen.LOGIN);
+            // First show a short welcome message, then go to the login screen.
+            Animations.showMessageThen(authRoot, card, "Admin account created, welcome!",
+                    () -> navigator.goTo(Screen.LOGIN));
         } catch (IllegalArgumentException | IllegalStateException e) {
             messageLabel.setText(e.getMessage());
         }

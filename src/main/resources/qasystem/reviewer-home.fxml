@@ -20,7 +20,6 @@
             <Label text="SYSTEM" styleClass="brand" />
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="userLabel" styleClass="user-chip" />
-            <Button text="Log Out" mnemonicParsing="false" onAction="#logout" />
          </children>
       </HBox>
    </top>

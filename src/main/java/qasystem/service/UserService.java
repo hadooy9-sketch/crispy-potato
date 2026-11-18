@@ -140,6 +140,25 @@ public class UserService {
         qaSystem.clearCurrentUser();
     }
 
+    /**
+     * Deletes the logged-in user's account and logs them out.
+     * Questions and answers they posted are kept.
+     * @throws IllegalStateException if nobody is logged in, or if this is the only admin
+     *         (the system always needs at least one admin)
+     */
+    public void deleteCurrentAccount() {
+        User user = qaSystem.getCurrentUser();
+        if (user == null) {
+            throw new IllegalStateException("No user is logged in.");
+        }
+        if (user.hasRole(Role.ADMIN) && qaSystem.countUsersWithRole(Role.ADMIN) == 1) {
+            throw new IllegalStateException("You are the only admin, so this account can't be deleted. "
+                    + "Make someone else an admin first.");
+        }
+        qaSystem.removeUser(user.getUsername());
+        qaSystem.clearCurrentUser();
+    }
+
     public User getCurrentUser() {
         return qaSystem.getCurrentUser();
     }

@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.HBox;
 
 import qasystem.model.Chapter;
 import qasystem.model.Course;
@@ -27,7 +28,8 @@ public class ChapterViewController {
     private final ViewContext viewContext;
     private final Navigator navigator;
 
-    @FXML private Button askButton;
+    @FXML private HBox askBanner;
+    @FXML private Label askTitleLabel;
     @FXML private Button deleteChapterButton;
     @FXML private Label breadcrumbLabel;
     @FXML private Label headingLabel;
@@ -49,7 +51,7 @@ public class ChapterViewController {
     private void initialize() {
         course = courseService.findCourse(viewContext.getSelectedCourseCode());
         chapterNumber = viewContext.getSelectedChapterNumber();
-        Ui.show(askButton, false);
+        Ui.show(askBanner, false);
         Ui.show(deleteChapterButton, false);
 
         if (course == null) {
@@ -59,11 +61,11 @@ public class ChapterViewController {
 
         List<Question> questions;
         if (chapterNumber == null) {
-            breadcrumbLabel.setText(course.getCode() + "   \u203a   Unresolved");
-            headingLabel.setText("Unresolved questions");
+            breadcrumbLabel.setText(course.getCode() + "   \u203a   Open questions");
+            headingLabel.setText("Waiting for an answer");
             questions = questionService.getUnresolvedQuestions(course.getCode());
             subheadingLabel.setText(Ui.count(questions.size(), "question")
-                    + " still waiting for an accepted answer, oldest first.");
+                    + " from every chapter without an accepted answer yet, oldest first. Can you help?");
         } else {
             Chapter chapter = course.findChapter(chapterNumber);
             if (chapter == null) {
@@ -77,10 +79,14 @@ public class ChapterViewController {
                     + ". Look through them before asking - yours may already be answered.");
             Ui.show(deleteChapterButton, courseService.canManageCourses());
         }
-        Ui.show(askButton, questionService.canAsk());
+        boolean canAsk = questionService.canAsk();
+        Ui.show(askBanner, canAsk);
+        askTitleLabel.setText(questions.isEmpty() ? "Be the first to ask a question here"
+                : "Didn't find your question?");
 
         questionList.setCellFactory(list -> new QuestionCell());
-        questionList.setPlaceholder(new Label("No questions here yet."));
+        questionList.setPlaceholder(new Label(canAsk ? "No questions here yet. Use the button above to ask one!"
+                : "No questions here yet."));
         questionList.getItems().setAll(questions);
         questionList.getSelectionModel().selectedItemProperty().addListener((observable, oldQ, question) -> {
             if (question != null) {

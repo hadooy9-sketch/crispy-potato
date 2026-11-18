@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User Story Test Report</title>
+<style>
+  :root { --ink:#1f2328; --quiet:#59636e; --line:#d1d9e0; --bg:#f6f8fa;
+          --good:#1a7f37; --good-bg:#dafbe1; --bad:#cf222e; --bad-bg:#ffebe9; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font:15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:32px 16px 48px; }
+  h1 { margin:0; font-size:28px; }
+  .sub { color:var(--quiet); margin:4px 0 24px; }
+  .banner { display:flex; align-items:center; gap:16px; padding:20px 24px; border-radius:12px;
+            margin-bottom:24px; border:1px solid; }
+  .banner.pass { background:var(--good-bg); border-color:var(--good); }
+  .banner.fail { background:var(--bad-bg); border-color:var(--bad); }
+  .banner .big { font-size:40px; font-weight:700; line-height:1; }
+  .banner.pass .big { color:var(--good); }  .banner.fail .big { color:var(--bad); }
+  .banner p { margin:0; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px 24px;
+          margin-bottom:16px; break-inside:avoid; }
+  .card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .code { font-size:12px; font-weight:700; color:var(--quiet); letter-spacing:.05em; }
+  h2 { margin:2px 0 0; font-size:18px; }
+  .badge { white-space:nowrap; font-size:13px; font-weight:600; padding:4px 10px; border-radius:999px; }
+  .badge.pass { background:var(--good-bg); color:var(--good); }
+  .badge.fail { background:var(--bad-bg); color:var(--bad); }
+  ul { list-style:none; margin:14px 0 0; padding:0; }
+  li { display:flex; gap:10px; padding:7px 0; border-top:1px solid var(--bg); }
+  .icon { font-weight:700; width:18px; flex:none; }
+  li.pass .icon { color:var(--good); }  li.fail .icon { color:var(--bad); }
+  li.fail { color:var(--bad); }  li.skipped, li.not-run { color:var(--quiet); }
+  footer { color:var(--quiet); font-size:13px; margin-top:24px; }
+  code { background:#eef1f4; padding:1px 5px; border-radius:4px; }
+  @media print { body { background:#fff; } main { padding-top:0; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>User Story Test Report</h1>
+  <p class="sub">CSE 360 Q&amp;A System &middot; tests run November 06, 2026 at 02:00 PM</p>
+
+  <div class="banner pass">
+    <div class="big">33/33</div>
+    <p><strong>All user story tests passed.</strong><br>
+       Each test acts like a real user (logs in, then asks, answers, reviews or invites) and checks the app does the right thing.</p>
+  </div>
+
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-01</span><h2>As a new user, I can create an account and log in</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>A new user without an invite code becomes a student and can log in</li><li class="pass"><span class="icon">&#10003;</span>A weak password is rejected and the user is told why</li><li class="pass"><span class="icon">&#10003;</span>A username that is already taken is rejected</li><li class="pass"><span class="icon">&#10003;</span>Logging in with the wrong password fails</li><li class="pass"><span class="icon">&#10003;</span>A user with two roles has to pick one after logging in</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-02</span><h2>As an admin, I can invite people with a one-time code</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>An admin gets an 8-character invite code</li><li class="pass"><span class="icon">&#10003;</span>Someone who signs up with the code gets the roles from the invite</li><li class="pass"><span class="icon">&#10003;</span>An invite code only works once</li><li class="pass"><span class="icon">&#10003;</span>An invite code stops working after it expires</li><li class="pass"><span class="icon">&#10003;</span>A student is not allowed to create invites</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-03</span><h2>As an admin, I can manage courses and chapters</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>An admin can create a course and add chapters to it</li><li class="pass"><span class="icon">&#10003;</span>The same course can&#x27;t be created twice, even if it&#x27;s typed differently</li><li class="pass"><span class="icon">&#10003;</span>A student is not allowed to create courses</li><li class="pass"><span class="icon">&#10003;</span>Deleting a chapter also deletes the questions in it</li><li class="pass"><span class="icon">&#10003;</span>Deleting a course removes it along with its questions</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-04</span><h2>As a student, I can find and follow courses</h2></div>
+        <span class="badge pass">3/3 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>A student can search for a course by part of its name</li><li class="pass"><span class="icon">&#10003;</span>A followed course shows up in the student&#x27;s course list</li><li class="pass"><span class="icon">&#10003;</span>Unfollowing removes it from the list again</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-05</span><h2>As a student, I can ask a question in a chapter</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>A student can ask a question and it shows up in that chapter</li><li class="pass"><span class="icon">&#10003;</span>Similar questions that were already asked get suggested</li><li class="pass"><span class="icon">&#10003;</span>Asking in a chapter that doesn&#x27;t exist is rejected</li><li class="pass"><span class="icon">&#10003;</span>A question without a title is rejected</li><li class="pass"><span class="icon">&#10003;</span>An admin is not allowed to ask questions</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-06</span><h2>As a student, I can answer questions and mark the one that solved mine</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>Another student can answer an open question</li><li class="pass"><span class="icon">&#10003;</span>The student who asked can mark an answer as the solution</li><li class="pass"><span class="icon">&#10003;</span>Only the student who asked can mark it solved</li><li class="pass"><span class="icon">&#10003;</span>A solved question can&#x27;t get any more answers</li><li class="pass"><span class="icon">&#10003;</span>Solved questions drop off the unresolved list</li></ul>
+    </section>
+    <section class="card">
+      <div class="card-head">
+        <div><span class="code">US-07</span><h2>As a reviewer, I can review answers</h2></div>
+        <span class="badge pass">5/5 passed</span>
+      </div>
+      <ul><li class="pass"><span class="icon">&#10003;</span>A reviewer can review a student&#x27;s answer</li><li class="pass"><span class="icon">&#10003;</span>Reviewing the same answer again updates the review instead of adding a second one</li><li class="pass"><span class="icon">&#10003;</span>A reviewer can&#x27;t review their own answer</li><li class="pass"><span class="icon">&#10003;</span>A student is not allowed to review answers</li><li class="pass"><span class="icon">&#10003;</span>Answers waiting for a review show up in the reviewer&#x27;s list until they&#x27;re reviewed</li></ul>
+    </section>
+
+  <footer>
+    Generated from JUnit 5 results (<code>target/surefire-reports</code>) for
+    <code>UserStoryAcceptanceTest.java</code>. To refresh: run <code>mvn clean test</code>,
+    then <code>python3 docs/make-story-report.py</code>.
+  </footer>
+</main>
+</body>
+</html>

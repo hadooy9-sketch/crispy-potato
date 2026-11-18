@@ -33,7 +33,6 @@ public class CoursesHomeController {
     private final Navigator navigator;
 
     @FXML private Label userLabel;
-    @FXML private Button invitationsButton;
     @FXML private Label heroTitle;
     @FXML private Label heroSubtitle;
     @FXML private TextField searchField;
@@ -58,7 +57,6 @@ public class CoursesHomeController {
         userLabel.setText(user.getUsername() + "  \u00b7  " + role.displayName());
 
         boolean admin = courseService.canManageCourses();
-        Ui.show(invitationsButton, admin);
         Ui.show(myCoursesSection, courseService.canFollow());
 
         heroTitle.setText("Welcome back, " + user.getUsername());
@@ -120,19 +118,18 @@ public class CoursesHomeController {
 
     private void addCourse() {
         TextField codeField = new TextField();
-        codeField.setPromptText("MAT 117");
+        codeField.setPromptText("e.g. MAT 117");
         TextField titleField = new TextField();
-        titleField.setPromptText("Calculus I");
+        titleField.setPromptText("e.g. Calculus I");
 
         VBox form = new VBox(8,
                 fieldLabel("Course code"), codeField,
                 fieldLabel("Course name"), titleField);
 
-        boolean added = Dialogs.form("Add a Course", form, "Add Course",
-                () -> courseService.createCourse(codeField.getText(), titleField.getText()));
-        if (added) {
-            refreshAllCourses();
-        }
+        // Opens inside this window; refreshAllCourses runs after the course is added.
+        Dialogs.form(allCoursesPane, "Add a Course", form, "Add Course",
+                () -> courseService.createCourse(codeField.getText(), titleField.getText()),
+                this::refreshAllCourses);
     }
 
     private static Label fieldLabel(String text) {
@@ -146,14 +143,5 @@ public class CoursesHomeController {
         navigator.goTo(Screen.COURSE_VIEW);
     }
 
-    @FXML
-    private void openInvitations() {
-        navigator.goTo(Screen.INVITATIONS);
-    }
-
-    @FXML
-    private void logout() {
-        userService.logout();
-        navigator.goTo(Screen.LOGIN);
-    }
+    // Invitations and Log Out moved into the slide-out menu (SideMenu).
 }

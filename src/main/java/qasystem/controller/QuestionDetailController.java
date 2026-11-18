@@ -45,6 +45,7 @@ public class QuestionDetailController {
     @FXML private Button deleteButton;
     @FXML private Label breadcrumbLabel;
     @FXML private Label statusLabel;
+    @FXML private Label askerAvatar;
     @FXML private Label titleLabel;
     @FXML private Label metaLabel;
     @FXML private Label bodyLabel;
@@ -83,7 +84,7 @@ public class QuestionDetailController {
         Question question = currentQuestion();
         if (question == null) {
             titleLabel.setText("This question no longer exists.");
-            for (javafx.scene.Node node : List.of(statusLabel, metaLabel, bodyLabel, answersHeader,
+            for (javafx.scene.Node node : List.of(statusLabel, askerAvatar, metaLabel, bodyLabel, answersHeader,
                     answersBox, resolvedNote, answerForm, deleteButton)) {
                 Ui.show(node, false);
             }
@@ -92,7 +93,8 @@ public class QuestionDetailController {
 
         breadcrumbLabel.setText(question.getCourseCode() + "   \u203a   Chapter " + question.getChapterNumber());
         titleLabel.setText(question.getTitle());
-        metaLabel.setText("asked by " + question.getAuthor()
+        askerAvatar.setText(initial(question.getAuthor()));
+        metaLabel.setText(question.getAuthor() + " asked"
                 + "   \u00b7   " + question.getCreatedAt().format(DATE_TIME_FORMAT));
 
         statusLabel.setText(question.isResolved() ? "RESOLVED" : "OPEN");
@@ -133,7 +135,16 @@ public class QuestionDetailController {
         }
     }
 
-    private VBox buildAnswerCard(Question question, Answer answer, boolean isAccepted, boolean canResolve) {
+    /** First letter of a name, for the round avatar. */
+    private static String initial(String name) {
+        return name == null || name.isEmpty() ? "?" : name.substring(0, 1).toUpperCase();
+    }
+
+    /**
+     * One answer, drawn like a chat reply: a round avatar with the author's first letter,
+     * then a speech bubble (its top-left corner is square, pointing at the avatar).
+     */
+    private HBox buildAnswerCard(Question question, Answer answer, boolean isAccepted, boolean canResolve) {
         Label meta = new Label((isAccepted ? "\u2713  ACCEPTED ANSWER   \u00b7   " : "")
                 + answer.getAuthor() + "   \u00b7   " + answer.getCreatedAt().format(DATE_TIME_FORMAT));
         meta.getStyleClass().add(isAccepted ? "answer-meta-accepted" : "answer-meta");
@@ -147,6 +158,16 @@ public class QuestionDetailController {
         if (isAccepted) {
             card.getStyleClass().add("answer-card-accepted");
         }
+        HBox.setHgrow(card, Priority.ALWAYS);
+        card.setMaxWidth(Double.MAX_VALUE);
+
+        Label avatar = new Label(initial(answer.getAuthor()));
+        avatar.getStyleClass().addAll("avatar", "avatar-small");
+        if (isAccepted) {
+            avatar.getStyleClass().add("avatar-accepted");
+        }
+        HBox row = new HBox(12, avatar, card);
+        row.setAlignment(Pos.TOP_LEFT);
 
         if (canResolve) {
             Button acceptButton = new Button("Accept this answer");
@@ -161,7 +182,7 @@ public class QuestionDetailController {
         if (reviewService.canReview(answer)) {
             card.getChildren().add(buildReviewForm(question, answer));
         }
-        return card;
+        return row;
     }
 
     // =====================================================================

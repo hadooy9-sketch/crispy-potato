@@ -21,6 +21,7 @@ import qasystem.controller.QuestionDetailController;
 import qasystem.controller.RegisterController;
 import qasystem.controller.ReviewerController;
 import qasystem.controller.RoleSelectController;
+import qasystem.controller.SideMenu;
 import qasystem.data.DataAccessException;
 import qasystem.data.Database;
 import qasystem.model.QASystem;
@@ -65,6 +66,7 @@ public class App extends Application implements Navigator {
     private ReviewService reviewService;
     private ViewContext viewContext;
     private Scene scene;
+    private SideMenu sideMenu; // the slide-out settings menu behind the top bar's menu button
 
     /** Controller class -> how to build it. One line per controller. */
     private final Map<Class<?>, Supplier<Object>> controllerFactories = new HashMap<>();
@@ -91,6 +93,7 @@ public class App extends Application implements Navigator {
         reviewService = new ReviewService(qaSystem, clock);
         viewContext = new ViewContext();
         registerControllers();
+        sideMenu = new SideMenu(userService, this);
 
         Screen firstScreen;
         if (devMode) {
@@ -122,11 +125,12 @@ public class App extends Application implements Navigator {
 
     /** Font files bundled in /qasystem/fonts. CSS can only use a font after it is loaded. */
     private static final String[] FONT_FILES = {
-            "DMSerifDisplay-Regular.ttf", // headings: "DM Serif Display"
-            "DMSerifDisplay-Italic.ttf",
-            "DMSans-Regular.ttf",          // body text: "DM Sans"
-            "DMSans-Bold.ttf",
-            "DMMono-Regular.ttf"           // codes: "DM Mono"
+            "Fredoka-SemiBold.ttf",  // headings: "Fredoka SemiBold"
+            "Fredoka-Medium.ttf",    // smaller headings: "Fredoka Medium"
+            "Nunito-Regular.ttf",    // body text: "Nunito"
+            "Nunito-SemiBold.ttf",   // buttons: "Nunito SemiBold"
+            "Nunito-Bold.ttf",       // bold body text (-fx-font-weight: bold)
+            "DMMono-Regular.ttf"     // invite codes: "DM Mono"
     };
 
     private void loadFonts() {
@@ -191,6 +195,7 @@ public class App extends Application implements Navigator {
     public void goTo(Screen screen) {
         try {
             Parent root = loadFXML(screen);
+            sideMenu.attachTo(root); // adds the menu button to the top bar, if the screen has one
             scene.setRoot(root);
             // Fade the new screen in so the switch feels smooth instead of sudden.
             Animations.fadeIn(root);

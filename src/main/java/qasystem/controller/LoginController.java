@@ -4,8 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 
 import qasystem.service.UserService;
+import qasystem.util.Birds;
 import qasystem.util.Navigator;
 import qasystem.util.Screen;
 
@@ -17,6 +19,9 @@ public class LoginController {
 
     private final UserService userService;
     private final Navigator navigator;
+
+    @FXML
+    private StackPane authRoot;
 
     @FXML
     private TextField usernameField;
@@ -35,6 +40,8 @@ public class LoginController {
     @FXML
     private void initialize() {
         Ui.collapseWhenEmpty(messageLabel);
+        Birds.addTo(authRoot); // a few small birds fly across the landscape behind the card
+        PasswordReveal.addTo(passwordField); // the eye button that shows the password
     }
 
     @FXML

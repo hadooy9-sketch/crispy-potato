@@ -12,9 +12,9 @@
             xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="qasystem.controller.FirstUserController">
    <content>
-      <StackPane styleClass="auth-root">
+      <StackPane fx:id="authRoot" styleClass="auth-root">
          <children>
-            <VBox styleClass="auth-card" maxWidth="480.0" maxHeight="-Infinity">
+            <VBox fx:id="card" styleClass="auth-card" maxWidth="480.0" maxHeight="-Infinity">
                <children>
                   <Label text="Q&amp;A SYSTEM  ·  FIRST-TIME SETUP" styleClass="auth-brand" />
                   <Label text="Create the admin account" styleClass="auth-title" wrapText="true" minHeight="-Infinity" />

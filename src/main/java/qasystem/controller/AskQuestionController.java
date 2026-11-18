@@ -135,7 +135,8 @@ public class AskQuestionController {
 
     @FXML
     private void cancel() {
-        navigator.goTo(Screen.CHAPTER_VIEW);
+        // From a chapter, go back to it. From the course's "Ask a Question" banner, go back to the course.
+        navigator.goTo(viewContext.getSelectedChapterNumber() == null ? Screen.COURSE_VIEW : Screen.CHAPTER_VIEW);
     }
 
     private static class ChapterCell extends ListCell<Chapter> {
