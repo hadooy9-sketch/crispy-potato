@@ -4,6 +4,7 @@
    Look: rounded cards and pill buttons. No drop shadows: JavaFX redraws a
    shadow on every animation frame, which made the app lag.
    Fonts: Fredoka (headings), Nunito (body), DM Mono (invite codes).
+   Text sizes were made 15% bigger (Nov 2026) for readability on large screens.
    The font files are bundled in /qasystem/fonts and loaded in App.java.
    Colors are defined ONCE here. dark.css redefines the same names for dark mode.
    ===================================================================== */
@@ -44,7 +45,7 @@
     -fx-faint-focus-color: transparent;
 
     -fx-font-family: "Nunito";
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
     -fx-background-color: -app-bg;
 }
 
@@ -67,7 +68,7 @@
 
 .brand, .brand-accent {
     -fx-font-family: "Fredoka SemiBold";
-    -fx-font-size: 22px;
+    -fx-font-size: 25.5px;
     -fx-text-fill: -app-heading;
 }
 .brand-accent {
@@ -83,7 +84,7 @@
     -fx-padding: 6 14 6 14;
     -fx-text-fill: -app-heading;
     -fx-font-family: "Nunito SemiBold";
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
 }
 
 /* The menu button (three lines) at the right end of the top bar */
@@ -111,18 +112,18 @@
 
 .hero-title {
     -fx-font-family: "Fredoka SemiBold";
-    -fx-font-size: 38px;
+    -fx-font-size: 43.5px;
     -fx-text-fill: -app-heading;
 }
 
 .hero-subtitle {
-    -fx-font-size: 16px;
+    -fx-font-size: 18.5px;
     -fx-text-fill: -app-muted;
 }
 
 .hero-code {
     -fx-font-family: "Nunito Bold";
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
     -fx-text-fill: -app-heading;
     -fx-background-color: -app-accent-soft;
     -fx-background-radius: 8;
@@ -131,19 +132,19 @@
 
 .section-title {
     -fx-font-family: "Fredoka Medium";
-    -fx-font-size: 22px;
+    -fx-font-size: 25.5px;
     -fx-text-fill: -app-text;
     -fx-padding: 22 0 4 0;
 }
 
 .breadcrumb {
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
     -fx-text-fill: -app-muted;
 }
 
 .empty-message {
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
     -fx-text-fill: -app-muted;
     -fx-padding: 8 0 8 0;
 }
@@ -175,7 +176,7 @@
     -fx-border-radius: 999;
     -fx-text-fill: -app-text;
     -fx-font-family: "Nunito SemiBold";
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
     -fx-padding: 9 20 9 20;
     -fx-cursor: hand;
 }
@@ -234,7 +235,7 @@
 .link-button:hover { -fx-underline: true; -fx-background-color: transparent; }
 
 .big-button {
-    -fx-font-size: 16px;
+    -fx-font-size: 18.5px;
     -fx-padding: 13 22 13 22;
 }
 
@@ -243,7 +244,7 @@
    ===================================================================== */
 
 .text-field, .text-area, .combo-box, .spinner {
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
 }
 
 .text-field {
@@ -268,7 +269,7 @@
 
 .code-field {
     -fx-font-family: "DM Mono";
-    -fx-font-size: 24px;
+    -fx-font-size: 27.5px;
     -fx-text-fill: -app-heading;
 }
 
@@ -305,7 +306,7 @@
 .spinner .text-field { -fx-border-color: transparent; -fx-background-color: transparent;  }
 .spinner .increment-arrow-button, .spinner .decrement-arrow-button { -fx-background-color: -app-surface-2; }
 
-.check-box { -fx-text-fill: -app-text; -fx-font-size: 15px; -fx-cursor: hand; }
+.check-box { -fx-text-fill: -app-text; -fx-font-size: 17px; -fx-cursor: hand; }
 .check-box .box {
     -fx-background-color: -app-input;
     -fx-border-color: -app-border;
@@ -337,7 +338,7 @@
 /* The short "Admin account created, welcome!" message after first-time setup. */
 .welcome-message {
     -fx-font-family: "Fredoka SemiBold";
-    -fx-font-size: 38px;
+    -fx-font-size: 43.5px;
     -fx-text-fill: -app-heading;
 }
 
@@ -351,36 +352,36 @@
 }
 
 .auth-brand {
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-text-fill: -app-muted;
 }
 
 .auth-title {
     -fx-font-family: "Fredoka SemiBold";
-    -fx-font-size: 34px;
+    -fx-font-size: 39px;
     -fx-text-fill: -app-heading;
 }
 
 .auth-subtitle {
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
     -fx-text-fill: -app-muted;
 }
 
 .field-label {
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
     -fx-text-fill: -app-text;
     -fx-padding: 10 0 0 0;
 }
 
 .field-hint {
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
     -fx-text-fill: -app-muted;
 }
 
-.error-label   { -fx-text-fill: -app-danger;  -fx-font-size: 14px; }
-.success-label { -fx-text-fill: -app-success; -fx-font-size: 14px; }
+.error-label   { -fx-text-fill: -app-danger;  -fx-font-size: 16px; }
+.success-label { -fx-text-fill: -app-success; -fx-font-size: 16px; }
 
 /* Live password checklist */
 .password-rules {
@@ -389,9 +390,9 @@
     -fx-padding: 12 16 12 16;
     -fx-spacing: 4;
 }
-.password-rules-header { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
-.rule-met   { -fx-font-size: 14px; -fx-text-fill: -app-success; }
-.rule-unmet { -fx-font-size: 14px; -fx-text-fill: -app-muted; }
+.password-rules-header { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+.rule-met   { -fx-font-size: 16px; -fx-text-fill: -app-success; }
+.rule-unmet { -fx-font-size: 16px; -fx-text-fill: -app-muted; }
 
 /* =====================================================================
    Cards (courses, chapters, roles)
@@ -413,9 +414,9 @@
 }
 .card:focused { -fx-border-color: -app-heading; }
 
-.card-title    { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 24px; -fx-text-fill: -app-heading; }
-.card-subtitle { -fx-font-size: 15px; -fx-text-fill: -app-text; }
-.card-stats    { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+.card-title    { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 27.5px; -fx-text-fill: -app-heading; }
+.card-subtitle { -fx-font-size: 17px; -fx-text-fill: -app-text; }
+.card-stats    { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
 
 .card-highlight { -fx-background-color: -app-warning-bg; }
 .card-highlight .card-title { -fx-text-fill: -app-warning; }
@@ -433,8 +434,8 @@
     -fx-background-color: -app-surface;
     -fx-border-color: -app-heading;
 }
-.add-card-plus { -fx-font-family: "Fredoka Medium"; -fx-font-size: 44px; -fx-text-fill: -app-heading; }
-.add-card-text { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+.add-card-plus { -fx-font-family: "Fredoka Medium"; -fx-font-size: 50.5px; -fx-text-fill: -app-heading; }
+.add-card-text { -fx-font-size: 17px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
 
 /* =====================================================================
    Question lists
@@ -446,7 +447,7 @@
     -fx-padding: 0;
 }
 .list-view:focused { -fx-background-color: transparent; }
-.list-view .placeholder .label { -fx-text-fill: -app-muted; -fx-font-size: 15px; }
+.list-view .placeholder .label { -fx-text-fill: -app-muted; -fx-font-size: 17px; }
 
 .list-cell {
     -fx-background-color: transparent;
@@ -467,11 +468,11 @@
     -fx-border-color: -app-text;
 }
 
-.question-title { -fx-font-family: "Fredoka Medium"; -fx-font-size: 19px; -fx-text-fill: -app-text; }
-.question-meta  { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+.question-title { -fx-font-family: "Fredoka Medium"; -fx-font-size: 22px; -fx-text-fill: -app-text; }
+.question-meta  { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
 
 .badge {
-    -fx-font-size: 11px;
+    -fx-font-size: 12.5px;
     -fx-font-weight: bold;
     -fx-padding: 3 10 3 10;
     -fx-background-radius: 999;
@@ -483,9 +484,9 @@
    Question detail
    ===================================================================== */
 
-.detail-title { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 30px; -fx-text-fill: -app-heading; }
-.detail-meta  { -fx-font-size: 14px; -fx-text-fill: -app-muted; }
-.detail-body  { -fx-font-size: 16px; -fx-text-fill: -app-text; }
+.detail-title { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 34.5px; -fx-text-fill: -app-heading; }
+.detail-meta  { -fx-font-size: 16px; -fx-text-fill: -app-muted; }
+.detail-body  { -fx-font-size: 18.5px; -fx-text-fill: -app-text; }
 
 /* The question gets its own card, so it reads as the thing being answered. */
 .question-bubble {
@@ -512,7 +513,7 @@
 }
 
 .avatar.avatar-small { /* both classes, so it wins over .avatar further down */
-    -fx-font-size: 16px;
+    -fx-font-size: 18.5px;
     -fx-min-width: 36; -fx-min-height: 36;
     -fx-max-width: 36; -fx-max-height: 36;
     -fx-background-radius: 18;
@@ -522,9 +523,9 @@
 /* The "Write an answer" box: a slightly deeper background so the white text box stands out. */
 .reply-panel { -fx-background-color: -app-surface-2; }
 .reply-panel .text-area { -fx-background-color: -app-border, -app-input; }
-.answer-meta          { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
-.answer-meta-accepted { -fx-font-size: 13px; -fx-text-fill: -app-success; -fx-font-weight: bold; }
-.answer-text          { -fx-font-size: 16px; }
+.answer-meta          { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
+.answer-meta-accepted { -fx-font-size: 15px; -fx-text-fill: -app-success; -fx-font-weight: bold; }
+.answer-text          { -fx-font-size: 18.5px; }
 
 .review-box {
     -fx-padding: 6 0 6 14;
@@ -534,7 +535,7 @@
 .review-correct   { -fx-border-color: transparent transparent transparent -app-success; }
 .review-partial   { -fx-border-color: transparent transparent transparent -app-warning; }
 .review-incorrect { -fx-border-color: transparent transparent transparent -app-danger; }
-.review-header    { -fx-font-size: 13px; -fx-font-weight: bold; }
+.review-header    { -fx-font-size: 15px; -fx-font-weight: bold; }
 .review-correct-text   { -fx-text-fill: -app-success; }
 .review-partial-text   { -fx-text-fill: -app-warning; }
 .review-incorrect-text { -fx-text-fill: -app-danger; }
@@ -544,7 +545,7 @@
     -fx-background-radius: 12;
     -fx-padding: 12;
 }
-.review-form-title { -fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
+.review-form-title { -fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: -app-muted; }
 
 /* =====================================================================
    Scroll panes, scroll bars, separators, tooltips
@@ -573,7 +574,7 @@
 .tooltip {
     -fx-background-color: -app-text;
     -fx-text-fill: -app-surface;
-    -fx-font-size: 13px;
+    -fx-font-size: 15px;
     -fx-background-radius: 8;
 }
 
@@ -586,7 +587,7 @@
     -fx-border-color: -app-border;
 }
 .dialog-pane > .content { -fx-padding: 20 24 8 24; }
-.dialog-pane > .content.label { -fx-font-size: 15px; -fx-text-fill: -app-text; }
+.dialog-pane > .content.label { -fx-font-size: 17px; -fx-text-fill: -app-text; }
 .dialog-pane > .button-bar > .container { -fx-background-color: transparent; -fx-padding: 8 16 16 16; }
 
 /* The see-through layer behind "Add a Course" and the menu */
@@ -601,7 +602,7 @@
     -fx-border-radius: 24;
 }
 
-.dialog-title { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 24px; -fx-text-fill: -app-heading; }
+.dialog-title { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 27.5px; -fx-text-fill: -app-heading; }
 
 /* Slide-out menu */
 .side-panel {
@@ -622,16 +623,16 @@
     -fx-background-color: -app-accent;
     -fx-text-fill: -app-on-accent;
     -fx-font-family: "Fredoka SemiBold";
-    -fx-font-size: 22px;
+    -fx-font-size: 25.5px;
     -fx-alignment: center;
     -fx-min-width: 48; -fx-min-height: 48;
     -fx-max-width: 48; -fx-max-height: 48;
     -fx-background-radius: 24;
 }
-.side-name { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 20px; -fx-text-fill: -app-text; }
-.side-role { -fx-font-size: 13px; -fx-text-fill: -app-muted; }
+.side-name { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 23px; -fx-text-fill: -app-text; }
+.side-role { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
 .side-section-title {
-    -fx-font-size: 11px;
+    -fx-font-size: 12.5px;
     -fx-font-weight: bold;
     -fx-text-fill: -app-muted;
     -fx-padding: 0 0 2 12;
@@ -643,14 +644,14 @@
     -fx-border-radius: 12;
     -fx-padding: 10 12 10 12;
     -fx-alignment: center-left;
-    -fx-font-size: 15px;
+    -fx-font-size: 17px;
 }
 .side-item:hover { -fx-background-color: -app-surface-2; }
 .side-toggle:selected { -fx-background-color: -app-accent-soft; -fx-text-fill: -app-heading; }
 .side-item-danger { -fx-text-fill: -app-danger; }
 .side-item-danger:hover { -fx-background-color: -app-danger-bg; }
-.side-about { -fx-font-size: 12px; -fx-text-fill: -app-muted; -fx-padding: 0 0 0 12; }
-.side-text  { -fx-font-size: 15px; -fx-text-fill: -app-text; }
+.side-about { -fx-font-size: 14px; -fx-text-fill: -app-muted; -fx-padding: 0 0 0 12; }
+.side-text  { -fx-font-size: 17px; -fx-text-fill: -app-text; }
 .side-confirm { -fx-padding: 10 4 0 4; }
 
 /* =====================================================================
@@ -664,8 +665,8 @@
     -fx-border-radius: 20;
     -fx-padding: 20 24 20 24;
 }
-.ask-banner-title    { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 22px; -fx-text-fill: -app-heading; }
-.ask-banner-subtitle { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
+.ask-banner-title    { -fx-font-family: "Fredoka SemiBold"; -fx-font-size: 25.5px; -fx-text-fill: -app-heading; }
+.ask-banner-subtitle { -fx-font-size: 17px; -fx-text-fill: -app-muted; }
 
 /* =====================================================================
    Show-password eye button (PasswordReveal)
@@ -686,3 +687,60 @@
 .reveal-button:hover .reveal-icon       { -fx-stroke: -app-heading; }
 .reveal-button:hover .reveal-icon-pupil { -fx-fill: -app-heading; }
 .reveal-button:hover .reveal-icon-slash { -fx-stroke: -app-heading; }
+
+/* =====================================================================
+   Keyboard shortcuts: key badges, Word-style tooltips, the help page
+   (classes are set in util/ShortcutHints.java and controller/SideMenu.java)
+   ===================================================================== */
+
+/* A little keyboard key, e.g. the [Q] on "Back" */
+.key-badge {
+    -fx-background-color: -app-accent-soft;
+    -fx-border-color: -app-border;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 0 6 0 6;
+    -fx-font-family: "DM Mono";
+    -fx-font-size: 14px;
+    -fx-text-fill: -app-heading;
+}
+/* The "+" or "/" between two keys */
+.key-joiner { -fx-font-size: 14px; -fx-text-fill: -app-muted; }
+
+/* On maroon buttons the badge turns see-through so it stays readable */
+.primary-button .key-badge {
+    -fx-background-color: rgba(255, 255, 255, 0.18);
+    -fx-border-color: transparent;
+    -fx-text-fill: -app-on-accent;
+}
+.primary-button .key-joiner { -fx-text-fill: -app-on-accent; }
+
+/* Word-style tooltip: light box, bold "Name (Key)", one line of explanation */
+.tooltip.shortcut-tip {
+    -fx-background-color: -app-border, -app-surface;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 8, 7;
+    -fx-padding: 8 12 8 12;
+}
+.shortcut-tip-title { -fx-font-family: "Nunito Bold"; -fx-font-size: 15px; -fx-text-fill: -app-heading; }
+.shortcut-tip-text  { -fx-font-size: 14.5px; -fx-text-fill: -app-text; }
+
+/* The question row highlighted with W / S (only while the list has keyboard focus) */
+.list-view:focused .question-cell:focused .question-card {
+    -fx-background-color: -app-surface-2;
+    -fx-border-color: -app-heading;
+}
+
+/* Side menu: the "Keyboard shortcuts" page */
+.side-item-text { -fx-font-size: 17px; -fx-text-fill: -app-text; }
+.side-back {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 4 10 4 10;
+    -fx-text-fill: -app-muted;
+}
+.side-back:hover { -fx-background-color: -app-surface-2; }
+.side-hint { -fx-font-size: 15px; -fx-text-fill: -app-muted; }
+.shortcut-row { -fx-padding: 4 0 4 12; }
+.shortcut-row-title { -fx-font-family: "Nunito Bold"; -fx-font-size: 16px; -fx-text-fill: -app-text; }
+.shortcut-row-text  { -fx-font-size: 14.5px; -fx-text-fill: -app-muted; }

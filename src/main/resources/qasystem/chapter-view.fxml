@@ -14,7 +14,7 @@
    <top>
       <HBox styleClass="top-bar">
          <children>
-            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" styleClass="back-button" />
             <Label text="Q&amp;A" styleClass="brand-accent" />
             <Label text="SYSTEM" styleClass="brand" />
             <Region HBox.hgrow="ALWAYS" />
@@ -42,7 +42,7 @@
                      </children>
                   </VBox>
                   <Button text="+  Ask a Question" mnemonicParsing="false" onAction="#askQuestion"
-                          styleClass="primary-button,big-button" minWidth="-Infinity" />
+                          styleClass="primary-button,big-button,shortcut-ask" minWidth="-Infinity" />
                </children>
             </HBox>
             <ListView fx:id="questionList" VBox.vgrow="ALWAYS" style="-fx-padding: 10 0 0 0;" />

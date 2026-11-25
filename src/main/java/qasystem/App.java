@@ -25,12 +25,16 @@ import qasystem.controller.SideMenu;
 import qasystem.data.DataAccessException;
 import qasystem.data.Database;
 import qasystem.model.QASystem;
+import qasystem.model.Question;
+import qasystem.model.Role;
 import qasystem.service.CourseService;
 import qasystem.service.InvitationService;
 import qasystem.service.QuestionService;
 import qasystem.service.ReviewService;
 import qasystem.service.UserService;
 import qasystem.util.Animations;
+import qasystem.util.ShortcutHints;
+import qasystem.util.ShortcutManager;
 import qasystem.util.Navigator;
 import qasystem.util.Screen;
 import qasystem.util.ViewContext;
@@ -41,6 +45,7 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.time.Clock;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -49,7 +54,7 @@ import java.util.function.Supplier;
  * the services and the shared ViewContext; builds every controller;
  * switches screens (as the Navigator); closes the database on exit.
  */
-public class App extends Application implements Navigator {
+public class App extends Application implements Navigator, ShortcutManager.Actions {
 
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 820;
@@ -66,6 +71,8 @@ public class App extends Application implements Navigator {
     private ReviewService reviewService;
     private ViewContext viewContext;
     private Scene scene;
+    private Parent currentScreen; // the screen being shown (forms and the side menu go ON TOP of it)
+    private Screen currentScreenType; // which screen that is, e.g. QUESTION_DETAIL
     private SideMenu sideMenu; // the slide-out settings menu behind the top bar's menu button
 
     /** Controller class -> how to build it. One line per controller. */
@@ -104,7 +111,10 @@ public class App extends Application implements Navigator {
         }
 
         loadFonts(); // must run before the stylesheet refers to the font names
-        scene = new Scene(loadFXML(firstScreen), WINDOW_WIDTH, WINDOW_HEIGHT);
+        currentScreen = loadFXML(firstScreen);
+        currentScreenType = firstScreen;
+        ShortcutHints.attachAll(currentScreen);
+        scene = new Scene(currentScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
         // One stylesheet for the whole app. It stays on the Scene when goTo() swaps the root.
         scene.getStylesheets().add(App.class.getResource("app.css").toExternalForm());
         // While a screen fades in, the window color behind it shows through. Matching it to the
@@ -112,6 +122,8 @@ public class App extends Application implements Navigator {
         scene.setFill(Color.web("#FFD7B0"));
         // Buttons grow a little when the mouse is over them (works on every screen).
         Animations.enableButtonHover(scene);
+        // Keyboard shortcuts (Q = Back, H = Home, ...). The full list is in util/Shortcut.java.
+        ShortcutManager.install(scene, () -> currentScreen, this);
 
         stage.setTitle(devMode ? "Q&A System  [DEV MODE]" : "Q&A System");
         stage.setScene(scene);
@@ -196,12 +208,71 @@ public class App extends Application implements Navigator {
         try {
             Parent root = loadFXML(screen);
             sideMenu.attachTo(root); // adds the menu button to the top bar, if the screen has one
+            ShortcutHints.attachAll(root); // key badges and tooltips, e.g. "Back [Q]"
+            currentScreen = root;
+            currentScreenType = screen;
             scene.setRoot(root);
             // Fade the new screen in so the switch feels smooth instead of sudden.
             Animations.fadeIn(root);
         } catch (IOException e) {
             throw new UncheckedIOException("Could not load screen " + screen, e);
         }
+    }
+
+    // =====================================================================
+    // Keyboard shortcuts that are not "press a button on this screen"
+    // =====================================================================
+
+    /** H: the home screen of the current role. */
+    @Override
+    public boolean goHome() {
+        Role role = userService.getCurrentRole();
+        if (userService.getCurrentUser() == null || role == null) {
+            return false; // not logged in, or no role picked yet
+        }
+        goTo(Screen.homeFor(role));
+        return true;
+    }
+
+    /**
+     * R (reviewers): open the next question with an answer waiting for review.
+     * From the home screen that is the oldest one; from a question in the queue, the one after it.
+     */
+    @Override
+    public boolean openNextReview() {
+        if (userService.getCurrentRole() != Role.REVIEWER) {
+            return false;
+        }
+        List<Question> waiting = reviewService.getQuestionsAwaitingReview();
+        if (waiting.isEmpty()) {
+            return false;
+        }
+        Question next = waiting.get(0);
+        Long current = viewContext.getSelectedQuestionId();
+        if (currentScreenType == Screen.QUESTION_DETAIL && current != null) {
+            for (int i = 0; i < waiting.size(); i++) {
+                if (waiting.get(i).getId() == current) {
+                    next = waiting.get((i + 1) % waiting.size()); // after the last one, start over
+                    break;
+                }
+            }
+        }
+        // Same as opening it from the reviewer home, so the Back buttons lead to the right places.
+        viewContext.selectCourse(next.getCourseCode());
+        viewContext.selectChapter(next.getChapterNumber());
+        viewContext.selectQuestion(next.getId());
+        goTo(Screen.QUESTION_DETAIL);
+        return true;
+    }
+
+    /** ?: open the side menu straight on its "Keyboard shortcuts" page. */
+    @Override
+    public boolean showShortcuts() {
+        if (userService.getCurrentUser() == null) {
+            return false; // the menu needs a logged-in user
+        }
+        sideMenu.openShortcuts(scene);
+        return true;
     }
 
     private Parent loadFXML(Screen screen) throws IOException {

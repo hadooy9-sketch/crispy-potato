@@ -56,7 +56,7 @@ public class ReviewerController {
         awaitingList.getItems().setAll(reviewService.getQuestionsAwaitingReview());
         // Size the list to its rows (at most 4 visible) instead of a fixed empty box.
         int rows = Math.max(1, Math.min(4, awaitingList.getItems().size()));
-        awaitingList.setPrefHeight(rows * 92 + 10);
+        awaitingList.setPrefHeight(rows * 104 + 10); // one row is ~104px with the bigger text
         awaitingList.getSelectionModel().selectedItemProperty().addListener((observable, oldQ, question) -> {
             if (question != null) {
                 openQuestion(question);

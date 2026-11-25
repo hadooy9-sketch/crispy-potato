@@ -15,7 +15,7 @@
    <top>
       <HBox styleClass="top-bar">
          <children>
-            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" />
+            <Button text="&#8592;  Back" mnemonicParsing="false" onAction="#back" styleClass="back-button" />
             <Label text="Q&amp;A" styleClass="brand-accent" />
             <Label text="SYSTEM" styleClass="brand" />
             <Region HBox.hgrow="ALWAYS" />

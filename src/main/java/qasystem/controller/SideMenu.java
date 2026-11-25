@@ -4,13 +4,18 @@ import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -26,6 +31,8 @@ import qasystem.model.User;
 import qasystem.service.UserService;
 import qasystem.util.Navigator;
 import qasystem.util.Screen;
+import qasystem.util.Shortcut;
+import qasystem.util.ShortcutHints;
 
 /**
  * The "three lines" menu button in the top bar, and the settings panel that slides in
@@ -36,7 +43,7 @@ import qasystem.util.Screen;
  */
 public final class SideMenu {
 
-    private static final double PANEL_WIDTH = 340;
+    private static final double PANEL_WIDTH = 370;
     private static final Duration SLIDE_TIME = Duration.millis(260);
 
     /** The dark colors live in their own stylesheet, added on top of app.css when dark mode is on. */
@@ -82,7 +89,16 @@ public final class SideMenu {
     // Opening and closing the panel
     // =====================================================================
 
+    /** The "?" key: open the menu straight on its "Keyboard shortcuts" page. */
+    public void openShortcuts(Scene scene) {
+        open(scene, true);
+    }
+
     private void open(Scene scene) {
+        open(scene, false);
+    }
+
+    private void open(Scene scene, boolean startOnShortcuts) {
         Parent screen = scene.getRoot();
 
         Region dim = new Region();
@@ -99,15 +115,30 @@ public final class SideMenu {
         scene.setRoot(layers);
         layers.getChildren().addAll(screen, dim, panel);
 
+        // Esc closes the menu. (closeLater is filled in below, once "close" exists.)
+        Runnable[] closeLater = new Runnable[1];
+        EventHandler<KeyEvent> escape = event -> {
+            if (event.getCode() == KeyCode.ESCAPE) {
+                event.consume();
+                closeLater[0].run();
+            }
+        };
+
         // Takes the menu away right now and gives the window its screen back.
         Runnable removeNow = () -> {
+            scene.removeEventFilter(KeyEvent.KEY_PRESSED, escape);
             if (scene.getRoot() == layers) { // only if nobody has switched screens meanwhile
                 layers.getChildren().clear();
                 scene.setRoot(screen);
             }
         };
         // Closing without going anywhere: slide the panel out first, then remove it.
-        Runnable close = () -> slide(panel, dim, false, removeNow);
+        Runnable close = () -> {
+            scene.removeEventFilter(KeyEvent.KEY_PRESSED, escape); // a second Esc does nothing
+            slide(panel, dim, false, removeNow);
+        };
+        closeLater[0] = close;
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, escape);
         dim.setOnMouseClicked(event -> close.run()); // click outside the panel to close it
 
         // Going to another screen: remove the menu at once, THEN switch screens.
@@ -119,7 +150,11 @@ public final class SideMenu {
             action.run();
         };
 
-        showMainMenu(panel, scene, close, thenGo);
+        if (startOnShortcuts) {
+            showShortcuts(panel, scene, close, thenGo);
+        } else {
+            showMainMenu(panel, scene, close, thenGo);
+        }
         slide(panel, dim, true, () -> { });
     }
 
@@ -164,7 +199,8 @@ public final class SideMenu {
 
         VBox go = section("Go to");
         if (role != null) {
-            go.getChildren().add(item("Home", () -> thenGo.accept(() -> navigator.goTo(Screen.homeFor(role)))));
+            go.getChildren().add(item("Home", Shortcut.HOME,
+                    () -> thenGo.accept(() -> navigator.goTo(Screen.homeFor(role)))));
         }
         if (role == Role.ADMIN) {
             go.getChildren().add(item("Invitations", () -> thenGo.accept(() -> navigator.goTo(Screen.INVITATIONS))));
@@ -191,6 +227,10 @@ public final class SideMenu {
         });
         preferences.getChildren().add(darkMode);
 
+        VBox help = section("Help");
+        help.getChildren().add(item("Keyboard shortcuts", Shortcut.SHOW_SHORTCUTS,
+                () -> showShortcuts(panel, scene, close, thenGo)));
+
         VBox account = section("Account");
         account.getChildren().add(item("Log out", () -> thenGo.accept(() -> {
             userService.logout();
@@ -203,7 +243,68 @@ public final class SideMenu {
         Label about = new Label("Q&A System  ·  CSE 360 team project");
         about.getStyleClass().add("side-about");
 
-        panel.getChildren().setAll(header, go, preferences, account, spacer, about);
+        panel.getChildren().setAll(header, go, preferences, help, account, spacer, about);
+    }
+
+    /**
+     * Every shortcut, grouped by who it is for. Built from the Shortcut list,
+     * so a new shortcut shows up here without changing this method.
+     */
+    private void showShortcuts(VBox panel, Scene scene, Runnable close, Consumer<Runnable> thenGo) {
+        Button back = new Button("\u2190  Menu");
+        back.getStyleClass().add("side-back");
+        back.setOnAction(event -> showMainMenu(panel, scene, close, thenGo));
+
+        Label title = new Label("Keyboard shortcuts");
+        title.getStyleClass().add("dialog-title");
+        Label hint = new Label("Letter keys don't work while you are typing in a box. "
+                + "Press Esc to leave the box first.");
+        hint.getStyleClass().add("side-hint");
+        hint.setWrapText(true);
+        hint.setMinHeight(Region.USE_PREF_SIZE);
+
+        Role role = userService.getCurrentRole();
+        VBox groups = new VBox(18);
+        for (Shortcut.Group group : Shortcut.Group.values()) {
+            boolean mine = role != null && group.name().equals(role.name());
+            VBox section = section(group.displayName() + (mine ? "  \u00b7  your role" : ""));
+            for (Shortcut shortcut : Shortcut.values()) {
+                if (shortcut.group() == group) {
+                    section.getChildren().add(shortcutRow(shortcut));
+                }
+            }
+            groups.getChildren().add(section);
+        }
+
+        ScrollPane scroll = new ScrollPane(groups);
+        scroll.setFitToWidth(true);
+        scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        VBox.setVgrow(scroll, Priority.ALWAYS);
+
+        panel.getChildren().setAll(back, title, hint, scroll);
+    }
+
+    /** One line of the shortcuts page:  [D] / [Enter]   Open / one-line explanation. */
+    private static HBox shortcutRow(Shortcut shortcut) {
+        HBox keys = ShortcutHints.keyBadges(shortcut.keys());
+        keys.setMinWidth(116);
+        keys.setPrefWidth(116);
+
+        Label name = new Label(shortcut.title());
+        name.getStyleClass().add("shortcut-row-title");
+        Label text = new Label(shortcut.description());
+        text.getStyleClass().add("shortcut-row-text");
+        text.setWrapText(true);
+        text.setMinHeight(Region.USE_PREF_SIZE);
+
+        VBox words = new VBox(2, name, text);
+        words.setMinWidth(0);
+        HBox.setHgrow(words, Priority.ALWAYS);
+
+        HBox row = new HBox(12, keys, words);
+        row.setAlignment(Pos.TOP_LEFT);
+        row.getStyleClass().add("shortcut-row");
+        return row;
     }
 
     /** Deleting cannot be undone, so the panel asks first. */
@@ -251,6 +352,26 @@ public final class SideMenu {
         VBox box = new VBox(4, label);
         box.getStyleClass().add("side-section");
         return box;
+    }
+
+    /**
+     * A menu item with its shortcut on the right, like a Word menu:  Home ........ [H]
+     * Hovering shows the Word-style tooltip too.
+     */
+    private static Button item(String text, Shortcut shortcut, Runnable action) {
+        Button button = item(text, action);
+        Label label = new Label(text);
+        label.getStyleClass().add("side-item-text");
+        Region gap = new Region();
+        HBox.setHgrow(gap, Priority.ALWAYS);
+        HBox row = new HBox(8, label, gap, ShortcutHints.keyBadges(shortcut.keys()));
+        row.setAlignment(Pos.CENTER_LEFT);
+        // As wide as the button minus its padding (12 left + 12 right), so the key sits at the right edge.
+        row.prefWidthProperty().bind(button.widthProperty().subtract(24));
+        button.setGraphic(row);
+        button.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        button.setTooltip(ShortcutHints.tooltip(shortcut.title(), shortcut.keys(), shortcut.description()));
+        return button;
     }
 
     private static Button item(String text, Runnable action) {

@@ -8,6 +8,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import qasystem.util.Shortcut;
+import qasystem.util.ShortcutHints;
+
 /**
  * Builds the clickable cards used on the home, course, and reviewer screens.
  * Each card is a real Button (so it gets hover, focus, keyboard, and click for free)
@@ -15,8 +18,8 @@ import javafx.scene.layout.VBox;
  */
 final class Cards {
 
-    static final double WIDTH = 272;
-    static final double HEIGHT = 170;
+    static final double WIDTH = 300;   // grew with the 15% bigger text
+    static final double HEIGHT = 190;
     private static final double PADDING = 20;
 
     private Cards() {
@@ -62,6 +65,7 @@ final class Cards {
 
         Button card = button(content, onAdd);
         card.getStyleClass().add("add-card");
+        ShortcutHints.mark(card, Shortcut.ADD_NEW); // N presses it; hover shows "Add new (N)"
         return card;
     }
 

@@ -16,6 +16,7 @@ import qasystem.service.QuestionService;
 import qasystem.service.UserService;
 import qasystem.util.Navigator;
 import qasystem.util.Screen;
+import qasystem.util.ShortcutHints;
 import qasystem.util.ViewContext;
 
 /**
@@ -110,8 +111,11 @@ public class CourseViewController {
             int number = chapter.getNumber();
             String stats = Ui.count(questionService.countQuestions(course.getCode(), number), "question")
                     + "  \u00b7  " + questionService.countUnresolved(course.getCode(), number) + " open";
-            chaptersPane.getChildren().add(
-                    Cards.card("Chapter " + number, chapter.getTitle(), stats, () -> openChapter(number)));
+            Button card = Cards.card("Chapter " + number, chapter.getTitle(), stats, () -> openChapter(number));
+            if (number >= 1 && number <= 9) {
+                ShortcutHints.markChapterCard(card, number); // the number keys 1-9 open it
+            }
+            chaptersPane.getChildren().add(card);
         }
 
         if (courseService.canManageCourses()) {
